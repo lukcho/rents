@@ -107,6 +107,19 @@ public class ManagerReserva {
 	}
 	
 	/**
+	 * Carga los sitios que se encuentran libres en el periodo con un genero determinado
+	 * @param prdID
+	 * @param genero
+	 * @return List<ArrSitioPeriodo>
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ArrSitioPeriodo> sitiosLibresPorPeriodoGenero(String prdID, String genero) throws Exception{
+		return mngDao.findWhere(ArrSitioPeriodo.class, "o.id.prdId='"+prdID+"'"
+				+ " AND o.sitLibres>0 AND sitGenero='"+genero+"'", null);
+	}
+	
+	/**
 	 * Valida si aún existe espacio en un sitio 
 	 * @param pkSitio
 	 * @return boolean
@@ -125,9 +138,10 @@ public class ManagerReserva {
 	 * @param estudiante
 	 * @param sitioLibre
 	 * @param prdID
+	 * @param representante
 	 * @throws Exception
 	 */
-	public void crearReserva(ArrMatriculado estudiante, ArrSitioPeriodo sitioLibre, String prdID) throws Exception{
+	public void crearReserva(ArrMatriculado estudiante, ArrSitioPeriodo sitioLibre, String prdID, String representante) throws Exception{
 		ArrReserva reserva = new ArrReserva();
 		reserva.setResId(estudiante.getId().getPerDni()+prdID);
 		reserva.setPerDni(estudiante.getId().getPerDni());
@@ -135,39 +149,45 @@ public class ManagerReserva {
 		reserva.setResFechaHoraCreacion(new Timestamp(new Date().getTime()));
 		reserva.setArrSitioPeriodo(sitioLibre);
 		reserva.setResEstado(Funciones.estadoActivo);
-		//reserva.setResContrato(generarContrato(estudiante));
+		//reserva.setResContrato(generarContrato(estudiante,representante));
 		mngDao.insertar(reserva);
 		//REDUCIR CAPACIDAD
 		reducirCapacidadSitio(sitioLibre);
+		//INGRESAR REPRESENTANTE
+		ingresarRepresentante(estudiante, representante);
 	}
 	
 	/**
 	 * Actualiza una reserva existente
-	 * @param perDNI
+	 * @param estudiante
 	 * @param prdID
 	 * @param sitioLibre
+	 * @param representante
 	 * @throws Exception
 	 */
-	public void modificarReserva(String perDNI, String prdID, ArrSitioPeriodo sitioLibre) throws Exception{
-		ArrReserva reserva = buscarReservaPorID(perDNI, prdID);
+	public void modificarReserva(ArrMatriculado estudiante, String prdID, ArrSitioPeriodo sitioLibre, String representante) throws Exception{
+		ArrReserva reserva = buscarReservaPorID(estudiante.getId().getPerDni(), prdID);
 		ArrSitioPeriodo sitioAnterior = reserva.getArrSitioPeriodo();
 		reserva.setResFechaCreacion(new Date());
 		reserva.setResFechaHoraCreacion(new Timestamp(new Date().getTime()));
 		reserva.setArrSitioPeriodo(sitioLibre);
-		//reserva.setResContrato(generarContrato(estudiante));
+		//reserva.setResContrato(generarContrato(estudiante,representante));
 		mngDao.actualizar(reserva);
 		//AUMENTAR CAPACIDAD ANTERIOR
 		aumentarCapacidadSitio(sitioAnterior);
 		//REDUCIR CAPACIDAD NUEVA
 		reducirCapacidadSitio(sitioLibre);
+		//INGRESAR REPRESENTANTE
+		ingresarRepresentante(estudiante, representante);
 	}
 	
 	/**
 	 * Genera el texto de contrato para esa reserva
 	 * @param estudiante
+	 * @param representante
 	 * @return String
 	 */
-	public String generarContrato(ArrMatriculado estudiante){
+	public String generarContrato(ArrMatriculado estudiante, String representante){
 		StringBuilder contrato = new StringBuilder();
 		return contrato.toString();
 	}
@@ -190,6 +210,21 @@ public class ManagerReserva {
 	public void aumentarCapacidadSitio(ArrSitioPeriodo sitioOcupado) throws Exception{
 		sitioOcupado.setSitLibres(sitioOcupado.getSitLibres()+1);
 		mngDao.actualizar(sitioOcupado);
+	}
+	
+	/**
+	 * Permite ingresar el representante de un estudiante
+	 * @param estudiante
+	 * @param representante
+	 * @throws Exception
+	 */
+	@SuppressWarnings("null")
+	public void ingresarRepresentante(ArrMatriculado estudiante, String representante) throws Exception{
+		if(representante!=null || !representante.trim().isEmpty()){
+			estudiante.setMatRepresDni((representante.split(";"))[0]);
+			estudiante.setMatRepresNombre((representante.split(";"))[1]);
+			mngDao.actualizar(estudiante);
+		}
 	}
 	
 	/**
