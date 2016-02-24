@@ -70,6 +70,7 @@ create table ARR_RESERVA (
 create table ARR_SITIO_PERIODO (
    ART_ID               INT4                 not null,
    PRD_ID               VARCHAR(20)          not null,
+   SIT_NOMBRE           VARCHAR(100)         null,
    SIT_CAPACIDAD        INT2                 null,
    SIT_VALOR_ARRIENDO   NUMERIC              null,
    SIT_GENERO           CHAR(1)              null,

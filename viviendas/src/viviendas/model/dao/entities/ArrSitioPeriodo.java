@@ -24,6 +24,9 @@ public class ArrSitioPeriodo implements Serializable {
 
 	@Column(name="sit_genero", columnDefinition="char", length=1)
 	private String sitGenero;
+	
+	@Column(name="sit_nombre", length=100)
+	private String sitNombre;
 
 	@Column(name="sit_valor_arriendo")
 	private BigDecimal sitValorArriendo;
@@ -62,6 +65,14 @@ public class ArrSitioPeriodo implements Serializable {
 
 	public void setSitGenero(String sitGenero) {
 		this.sitGenero = sitGenero;
+	}
+	
+	public String getSitNombre() {
+		return sitNombre;
+	}
+	
+	public void setSitNombre(String sitNombre) {
+		this.sitNombre = sitNombre;
 	}
 
 	public BigDecimal getSitValorArriendo() {
