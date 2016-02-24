@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Funciones {
@@ -24,7 +25,11 @@ public class Funciones {
 	public static String valorEstadoEnviado = "Enviado";
 	public static String estadoNegado = "N";
 	public static String valorEstadoNegado = "Negado";
+	public static String estadoFinalizado = "F";
+	public static String valorEstadoFinalizado = "Finalizado";
 	
+	public static Integer mayoriaDeEdad = 18;
+		
 	public static String hostWS = "http://10.1.0.158:8080/sgupy/";
 	
 	public static Boolean validacionCedula(String cedula){
@@ -208,5 +213,44 @@ public class Funciones {
 	 */
 	public static String timestampToString(Timestamp estFechaIni) {
 		return new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(estFechaIni);
+	}
+	
+	/**
+	 * Calcula la edad de una persona
+	 * (Date fechaNac = new SimpleDateFormat("dd-MM-yyyy").parse("10-12-1980");)
+	 * @param fecha
+	 * @return Integer
+	 */
+	public static Integer calcularEdad(Date fecha) {
+		Calendar fechaNacimiento = Calendar.getInstance();
+		// Se crea un objeto con la fecha actual
+		Calendar fechaActual = Calendar.getInstance();
+		// Se asigna la fecha recibida a la fecha de nacimiento.
+		fechaNacimiento.setTime(fecha);
+		// Se restan la fecha actual y la fecha de nacimiento
+		int año = fechaActual.get(Calendar.YEAR)
+				- fechaNacimiento.get(Calendar.YEAR);
+		int mes = fechaActual.get(Calendar.MONTH)
+				- fechaNacimiento.get(Calendar.MONTH);
+		int dia = fechaActual.get(Calendar.DATE)
+				- fechaNacimiento.get(Calendar.DATE);
+		// Se ajusta el año dependiendo el mes y el día
+		if (mes < 0 || (mes == 0 && dia < 0)) {
+			año--;
+		}
+		// Regresa la edad en base a la fecha de nacimiento
+		return año;
+	}
+	
+	/**
+	 * Determina si es mayor de edad
+	 * @param fecha
+	 * @return boolean
+	 */
+	public static boolean mayorDeEdad(Date fecha){
+		if(calcularEdad(fecha)>=mayoriaDeEdad)
+			return true;
+		else
+			return false;
 	}
 }
