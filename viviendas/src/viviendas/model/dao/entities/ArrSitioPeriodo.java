@@ -21,6 +21,9 @@ public class ArrSitioPeriodo implements Serializable {
 
 	@Column(name="sit_capacidad")
 	private Integer sitCapacidad;
+	
+	@Column(name="sit_libres")
+	private Integer sitLibres;
 
 	@Column(name="sit_genero", columnDefinition="char", length=1)
 	private String sitGenero;
@@ -57,6 +60,14 @@ public class ArrSitioPeriodo implements Serializable {
 
 	public void setSitCapacidad(Integer sitCapacidad) {
 		this.sitCapacidad = sitCapacidad;
+	}
+	
+	public Integer getSitLibres() {
+		return sitLibres;
+	}
+	
+	public void setSitLibres(Integer sitLibres) {
+		this.sitLibres = sitLibres;
 	}
 
 	public String getSitGenero() {
