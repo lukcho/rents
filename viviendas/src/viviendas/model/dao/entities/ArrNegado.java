@@ -1,6 +1,7 @@
 package viviendas.model.dao.entities;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 

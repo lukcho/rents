@@ -7,7 +7,6 @@
 		<class>viviendas.model.dao.entities.ArrNegadoPK</class>
 		<class>viviendas.model.dao.entities.ArrPeriodo</class>
 		<class>viviendas.model.dao.entities.ArrReserva</class>
-		<class>viviendas.model.dao.entities.ArrReservaPK</class>
 		<class>viviendas.model.dao.entities.ArrSitioPeriodo</class>
 		<class>viviendas.model.dao.entities.ArrSitioPeriodoPK</class>
 		<properties>

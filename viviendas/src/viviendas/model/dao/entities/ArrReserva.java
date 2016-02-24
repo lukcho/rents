@@ -1,7 +1,9 @@
 package viviendas.model.dao.entities;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -16,8 +18,12 @@ import java.util.Date;
 public class ArrReserva implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private ArrReservaPK id;
+	@Id
+	@Column(name="res_id", length=40)
+	private String resId;
+
+	@Column(name="per_dni", length=20)
+	private String perDni;
 
 	@Column(name="res_contrato", columnDefinition="text")
 	private String resContrato;
@@ -46,19 +52,27 @@ public class ArrReserva implements Serializable {
 	@ManyToOne
 	@JoinColumns({
 		@JoinColumn(name="art_id", referencedColumnName="art_id"),
-		@JoinColumn(name="prd_id", referencedColumnName="prd_id", insertable=false, updatable=false)
+		@JoinColumn(name="prd_id", referencedColumnName="prd_id")
 		})
 	private ArrSitioPeriodo arrSitioPeriodo;
 
 	public ArrReserva() {
 	}
 
-	public ArrReservaPK getId() {
-		return this.id;
+	public String getResId() {
+		return this.resId;
 	}
 
-	public void setId(ArrReservaPK id) {
-		this.id = id;
+	public void setResId(String resId) {
+		this.resId = resId;
+	}
+
+	public String getPerDni() {
+		return this.perDni;
+	}
+
+	public void setPerDni(String perDni) {
+		this.perDni = perDni;
 	}
 
 	public String getResContrato() {

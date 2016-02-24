@@ -51,8 +51,9 @@ create table ARR_PERIODO (
 /* Table: ARR_RESERVA                                           */
 /*==============================================================*/
 create table ARR_RESERVA (
-   PER_DNI              VARCHAR(20)          not null,
-   PRD_ID               VARCHAR(20)          not null,
+   RES_ID               VARCHAR(40)          not null,
+   PER_DNI              VARCHAR(20)          null,
+   PRD_ID               VARCHAR(20)          null,
    ART_ID               INT4                 null,
    RES_FECHA_HORA_CREACION TIMESTAMP            null,
    RES_FECHA_CREACION   DATE                 null,
@@ -61,7 +62,7 @@ create table ARR_RESERVA (
    RES_USUARIO          VARCHAR(30)          null,
    RES_CONTRATO         TEXT                 null,
    RES_ESTADO           CHAR(1)              null,
-   constraint PK_ARR_RESERVA primary key (PER_DNI, PRD_ID)
+   constraint PK_ARR_RESERVA primary key (RES_ID)
 );
 
 /*==============================================================*/
