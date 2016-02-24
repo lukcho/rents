@@ -114,7 +114,7 @@ public class ManagerReserva {
 	 */
 	public boolean existeReservaPeriodo(ArrSitioPeriodoPK pkSitio) throws Exception{
 		ArrSitioPeriodo sitio = (ArrSitioPeriodo) mngDao.findById(ArrSitioPeriodo.class, pkSitio);
-		if(sitio.getSitLibres()>0)
+		if(sitio.getSitLibres()>=0)
 			return true;
 		else
 			return false;
@@ -124,10 +124,12 @@ public class ManagerReserva {
 	 * Crea una reserva de sitio
 	 * @param estudiante
 	 * @param sitioLibre
+	 * @param prdID
 	 * @throws Exception
 	 */
-	public void crearReserva(ArrMatriculado estudiante, ArrSitioPeriodo sitioLibre) throws Exception{
+	public void crearReserva(ArrMatriculado estudiante, ArrSitioPeriodo sitioLibre, String prdID) throws Exception{
 		ArrReserva reserva = new ArrReserva();
+		reserva.setResId(estudiante.getId().getPerDni()+prdID);
 		reserva.setPerDni(estudiante.getId().getPerDni());
 		reserva.setResFechaCreacion(new Date());
 		reserva.setResFechaHoraCreacion(new Timestamp(new Date().getTime()));
