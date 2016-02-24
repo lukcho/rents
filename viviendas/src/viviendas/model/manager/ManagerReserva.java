@@ -103,25 +103,21 @@ public class ManagerReserva {
 	@SuppressWarnings("unchecked")
 	public List<ArrSitioPeriodo> sitiosLibresPorPeriodo(String prdID) throws Exception{
 		return mngDao.findWhere(ArrSitioPeriodo.class, "o.id.prdId='"+prdID+"'"
-				+ " AND o.sitLibres>0"
-				+ " AND o.id.artId NOT IN"
-				+ " (SELECT r.arrSitioPeriodo.id.artId FROM ArrReserva r WHERE"
-				+ " r.arrSitioPeriodo.id.prdId='"+prdID+"')", null);
+				+ " AND o.sitLibres>0", null);
 	}
 	
 	/**
-	 * Valida si ya se ingreso reserva del sitio
+	 * Valida si aún existe espacio en un sitio 
 	 * @param pkSitio
 	 * @return boolean
+	 * @throws Exception 
 	 */
-	@SuppressWarnings("unchecked")
-	public boolean existeReservaPeriodo(ArrSitioPeriodoPK pkSitio){
-		List<ArrReserva> listado = mngDao.findWhere(ArrReserva.class, "o.arrSitioPeriodo.id.prdId='"+pkSitio.getPrdId()+"'"
-				+ " AND o.arrSitioPeriodo.id.artId="+pkSitio.getArtId(), null);
-		if(listado.isEmpty())
-			return false;
-		else
+	public boolean existeReservaPeriodo(ArrSitioPeriodoPK pkSitio) throws Exception{
+		ArrSitioPeriodo sitio = (ArrSitioPeriodo) mngDao.findById(ArrSitioPeriodo.class, pkSitio);
+		if(sitio.getSitLibres()>0)
 			return true;
+		else
+			return false;
 	}
 	
 	/**
