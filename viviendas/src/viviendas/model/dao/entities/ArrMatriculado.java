@@ -1,6 +1,7 @@
 package viviendas.model.dao.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.*;
 
@@ -17,6 +18,10 @@ public class ArrMatriculado implements Serializable {
 
 	@EmbeddedId
 	private ArrMatriculadoPK id;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="mat_fecha_nacimiento")
+	private Date matFechaNacimiento;
 
 	@Column(name="mat_carrera", length=150)
 	private String matCarrera;
@@ -57,7 +62,15 @@ public class ArrMatriculado implements Serializable {
 	public void setId(ArrMatriculadoPK id) {
 		this.id = id;
 	}
-
+	
+	public Date getMatFechaNacimiento() {
+		return matFechaNacimiento;
+	}
+	
+	public void setMatFechaNacimiento(Date matFechaNacimiento) {
+		this.matFechaNacimiento = matFechaNacimiento;
+	}
+	
 	public String getMatCarrera() {
 		return this.matCarrera;
 	}
