@@ -102,8 +102,9 @@ public class ManagerReserva {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<ArrSitioPeriodo> sitiosLibresPorPeriodo(String prdID) throws Exception{
-		return mngDao.findWhere(ArrSitioPeriodo.class, "o.id.prdId='"+prdID
-				+"' AND o.id.artId NOT IN"
+		return mngDao.findWhere(ArrSitioPeriodo.class, "o.id.prdId='"+prdID+"'"
+				+ " AND o.sitLibres>0"
+				+ " AND o.id.artId NOT IN"
 				+ " (SELECT r.arrSitioPeriodo.id.artId FROM ArrReserva r WHERE"
 				+ " r.arrSitioPeriodo.id.prdId='"+prdID+"')", null);
 	}
@@ -138,6 +139,8 @@ public class ManagerReserva {
 		reserva.setResEstado(Funciones.estadoActivo);
 		//reserva.setResContrato(generarContrato(estudiante));
 		mngDao.insertar(reserva);
+		//REDUCIR CAPACIDAD
+		reducirCapacidadSitio(sitioLibre);
 	}
 	
 	/**
@@ -149,11 +152,16 @@ public class ManagerReserva {
 	 */
 	public void modificarReserva(String perDNI, String prdID, ArrSitioPeriodo sitioLibre) throws Exception{
 		ArrReserva reserva = buscarReservaPorID(perDNI, prdID);
+		ArrSitioPeriodo sitioAnterior = reserva.getArrSitioPeriodo();
 		reserva.setResFechaCreacion(new Date());
 		reserva.setResFechaHoraCreacion(new Timestamp(new Date().getTime()));
 		reserva.setArrSitioPeriodo(sitioLibre);
 		//reserva.setResContrato(generarContrato(estudiante));
 		mngDao.actualizar(reserva);
+		//AUMENTAR CAPACIDAD ANTERIOR
+		aumentarCapacidadSitio(sitioAnterior);
+		//REDUCIR CAPACIDAD NUEVA
+		reducirCapacidadSitio(sitioLibre);
 	}
 	
 	/**
@@ -164,6 +172,26 @@ public class ManagerReserva {
 	public String generarContrato(ArrMatriculado estudiante){
 		StringBuilder contrato = new StringBuilder();
 		return contrato.toString();
+	}
+	
+	/**
+	 * Reducir capacidad de sitio
+	 * @param sitioLibre
+	 * @throws Exception
+	 */
+	public void reducirCapacidadSitio(ArrSitioPeriodo sitioLibre) throws Exception{
+		sitioLibre.setSitLibres(sitioLibre.getSitLibres()-1);
+		mngDao.actualizar(sitioLibre);
+	}
+	
+	/**
+	 * Aumentar capacidad de sitio
+	 * @param sitioOcupado
+	 * @throws Exception
+	 */
+	public void aumentarCapacidadSitio(ArrSitioPeriodo sitioOcupado) throws Exception{
+		sitioOcupado.setSitLibres(sitioOcupado.getSitLibres()+1);
+		mngDao.actualizar(sitioOcupado);
 	}
 	
 	/**
