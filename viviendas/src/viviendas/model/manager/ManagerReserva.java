@@ -238,4 +238,21 @@ public class ManagerReserva {
 		String pk = perDNI+prdID;
 		return (ArrReserva) mngDao.findById(ArrReserva.class, pk);
 	}
+	
+	/**
+	 * Busca matriculados pertenecientes a un sitio por periodo
+	 * @param artID
+	 * @param prdID
+	 * @return List<ArrMatriculado>
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ArrMatriculado> matriculadosEnSitioPorPeriodo(Integer artID, String prdID){
+		return mngDao.findWhere(ArrMatriculado.class, 
+				"o.id.prdId='"+prdID+"'"
+						+ " AND o.id.perDni IN"
+						+ " (SELECT r.perDni FROM ArrReserva"
+						+ " WHERE r.arrSitioPeriodo.id.artId="+artID
+						+ " AND r.arrSitioPeriodo.id.prdId='"+prdID+"')", 
+				null);
+	}
 }
