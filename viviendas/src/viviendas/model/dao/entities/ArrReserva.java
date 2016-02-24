@@ -19,10 +19,10 @@ public class ArrReserva implements Serializable {
 	@EmbeddedId
 	private ArrReservaPK id;
 
-	@Column(name="res_contrato")
+	@Column(name="res_contrato", columnDefinition="text")
 	private String resContrato;
 
-	@Column(name="res_estado")
+	@Column(name="res_estado", columnDefinition="char", length=1)
 	private String resEstado;
 
 	@Temporal(TemporalType.DATE)
@@ -39,14 +39,14 @@ public class ArrReserva implements Serializable {
 	@Column(name="res_fecha_hora_finalizacion")
 	private Timestamp resFechaHoraFinalizacion;
 
-	@Column(name="res_usuario")
+	@Column(name="res_usuario", length=30)
 	private String resUsuario;
 
 	//bi-directional many-to-one association to ArrSitioPeriodo
 	@ManyToOne
 	@JoinColumns({
 		@JoinColumn(name="art_id", referencedColumnName="art_id"),
-		@JoinColumn(name="prd_id", referencedColumnName="prd_id")
+		@JoinColumn(name="prd_id", referencedColumnName="prd_id", insertable=false, updatable=false)
 		})
 	private ArrSitioPeriodo arrSitioPeriodo;
 

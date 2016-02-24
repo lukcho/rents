@@ -17,13 +17,13 @@ public class ArrPeriodo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="prd_id")
+	@Column(name="prd_id", length=20)
 	private String prdId;
 
-	@Column(name="prd_descripcion")
+	@Column(name="prd_descripcion", columnDefinition="text")
 	private String prdDescripcion;
 
-	@Column(name="prd_estado")
+	@Column(name="prd_estado", columnDefinition="char", length=1)
 	private String prdEstado;
 
 	@Temporal(TemporalType.DATE)

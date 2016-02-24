@@ -12,7 +12,7 @@ public class ArrMatriculadoPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="per_dni")
+	@Column(name="per_dni", length=20)
 	private String perDni;
 
 	@Column(name="prd_id", insertable=false, updatable=false)

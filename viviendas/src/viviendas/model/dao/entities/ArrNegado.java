@@ -17,7 +17,7 @@ public class ArrNegado implements Serializable {
 	@EmbeddedId
 	private ArrNegadoPK id;
 
-	@Column(name="neg_razon")
+	@Column(name="neg_razon", columnDefinition="text")
 	private String negRazon;
 
 	public ArrNegado() {

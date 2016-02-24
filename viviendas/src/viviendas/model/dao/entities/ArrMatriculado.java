@@ -17,28 +17,28 @@ public class ArrMatriculado implements Serializable {
 	@EmbeddedId
 	private ArrMatriculadoPK id;
 
-	@Column(name="mat_carrera")
+	@Column(name="mat_carrera", length=150)
 	private String matCarrera;
 
-	@Column(name="mat_correo")
+	@Column(name="mat_correo", length=150)
 	private String matCorreo;
 
-	@Column(name="mat_correo_ins")
+	@Column(name="mat_correo_ins", length=150)
 	private String matCorreoIns;
 
-	@Column(name="mat_genero")
+	@Column(name="mat_genero", columnDefinition="char" , length=1)
 	private String matGenero;
 
-	@Column(name="mat_nivel")
+	@Column(name="mat_nivel", length=150)
 	private String matNivel;
 
-	@Column(name="mat_repres_dni")
+	@Column(name="mat_repres_dni", length=20)
 	private String matRepresDni;
 
-	@Column(name="mat_repres_nombre")
+	@Column(name="mat_repres_nombre", length=300)
 	private String matRepresNombre;
 
-	@Column(name="mat_token")
+	@Column(name="mat_token", length=10)
 	private String matToken;
 
 	//bi-directional many-to-one association to ArrPeriodo
