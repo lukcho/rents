@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+    	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <title><ui:insert name="titulo">Template</ui:insert></title>
+        <link rel="shortcut icon" type="image/x-icon" href="../resources/img/favicon.ico"/>
+         <h:outputStylesheet library="css" name="theme.css" />
+        <h:outputStylesheet library="css" name="style.css" />
+        <script src="http://maps.google.com/maps/api/js?sensor=false"
+         type="text/javascript"></script>
+    </h:head>
+    <h:body>  
+        <b:navBar brand="Sis_Arriendo" inverse="true" brandHref="index.xhtml">
+        	<b:navbarLinks>
+	        	<b:dropMenu value="Configuración">
+		            <b:navLink value="Institución" href="institucion.xhtml"></b:navLink>
+		            <b:navLink value="Sector" href="sector.xhtml"></b:navLink>
+		            <b:navLink value="Areas" href="area.xhtml"></b:navLink>
+		            <b:navLink value="Tipos Sitios" href="tipositio.xhtml"></b:navLink>
+		            <b:navLink value="Sitios" href="sitio.xhtml"></b:navLink>
+		            <b:navLink value="Artículos" href="articulo.xhtml"></b:navLink>
+		            <b:navLink value="Asignación" href="articuloSitios.xhtml"></b:navLink>
+		        </b:dropMenu>
+		        <b:dropMenu value="Préstamos">
+		            <b:navLink value="Plantillas de contratos*" href="contratos.xhtml"></b:navLink>
+		            <b:navLink value="Contratos de Sitios*" href="convivienda.xhtml"></b:navLink>
+		        </b:dropMenu>
+		        <b:dropMenu value="Reportes">
+		            <b:navLink value="Sitios*" href="#"></b:navLink>
+		            <b:navLink value="Contratos*" href="#"></b:navLink>
+		            <!-- b:navLink value="Préstamos*" href="#"></b:navLink>  -->
+		        </b:dropMenu>
+		        <b:navLink value="Ayuda*" href="#"></b:navLink>
+	            <ui:insert name="menu"></ui:insert>
+            </b:navbarLinks>
+            <b:navbarLinks pull="right">
+				<h:form>
+			 		<b:commandButton value="Cerrar sesión" size="sm" style="margin:10px;" iconAwesome="remove" iconAlign="right" action="index?faces-redirect=true"></b:commandButton>
+			 	</h:form>
+		 	</b:navbarLinks>
+        </b:navBar>
+        <b:container>
+        	<ui:insert name="contenido" ></ui:insert>
+        </b:container> 
+    </h:body>
+</html>
