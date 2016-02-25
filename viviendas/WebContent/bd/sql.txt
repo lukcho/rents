@@ -40,7 +40,7 @@ create table ARR_NEGADOS (
 /* Table: ARR_PERIODO                                           */
 /*==============================================================*/
 create table ARR_PERIODO (
-   PRD_ID               VARCHAR(20)          not null,
+   PRD_ID               VARCHAR(50)          not null,
    PRD_DESCRIPCION      TEXT                 null,
    PRD_FECHA_INICIO     DATE                 null,
    PRD_FECHA_FIN        DATE                 null,
