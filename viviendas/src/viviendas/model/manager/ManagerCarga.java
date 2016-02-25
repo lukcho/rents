@@ -1,5 +1,7 @@
 package viviendas.model.manager;
 
+import java.awt.font.NumericShaper;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,6 +12,7 @@ import viviendas.model.conn.entities.GEN_Areas;
 import viviendas.model.conn.entities.GEN_Sitios;
 import viviendas.model.dao.entities.ArrPeriodo;
 import viviendas.model.dao.entities.ArrSitioPeriodo;
+import viviendas.model.dao.entities.ArrSitioPeriodoPK;
 
 /**
  * Contiene la lógica de negocio para realizar el proceso de reserva de sitios
@@ -40,7 +43,7 @@ public class ManagerCarga {
 	 * @return
 	 * @throws Exception 
 	 */
-	public ArrPeriodo PeridoById(String per_id) throws Exception{
+	public ArrPeriodo PeriodoById(String per_id) throws Exception{
 		return (ArrPeriodo) mngDao.findById(ArrPeriodo.class, per_id);
 	}
 	
@@ -81,7 +84,7 @@ public class ManagerCarga {
 	public void editarPeriodo (String per_id, String descripcion, Date fecha_inicio, Date fecha_fin,String estado)
 			throws Exception {
 		try {
-			ArrPeriodo per= this.PeridoById(per_id);
+			ArrPeriodo per= this.PeriodoById(per_id);
 			per.setPrdDescripcion(descripcion);
 			per.setPrdFechaInicio(fecha_inicio);
 			per.setPrdFechaFin(fecha_fin);
@@ -102,7 +105,7 @@ public class ManagerCarga {
 	public void editarPeriodoEstado (String per_id,String estado)
 			throws Exception {
 		try {
-			ArrPeriodo per= this.PeridoById(per_id);
+			ArrPeriodo per= this.PeriodoById(per_id);
 			per.setPrdEstado(estado);
 			mngDao.actualizar(per);
 			System.out.println("Bien_editar_periodo_estado");
@@ -160,22 +163,52 @@ public class ManagerCarga {
 		return (ArrSitioPeriodo) mngDao.findById(ArrSitioPeriodo.class, per_id);
 	}
 	
-//	public void insertarSitio(String sit_id, String descripcion, Date fecha_inicio, Date fecha_fin,String estado)
-//			throws Exception {
-//		try {
-//			ArrSitioPeriodo per= new ArrSitioPeriodo();
-//			per.setPrdId(per_id);
-//			per.setPrdDescripcion(descripcion);
-//			per.setPrdFechaInicio(fecha_inicio);
-//			per.setPrdFechaFin(fecha_fin);
-//			per.setPrdEstado(estado);
-//			mngDao.insertar(per);
-//			System.out.println("Bien_insertar_periodo");
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}// Cierre del metodo
-//	
+	/**
+	 * Metodo para obtener un atributo por id 
+	 * @param per_id
+	 * @return
+	 * @throws Exception 
+	 */
+	public ArrSitioPeriodoPK SitiosPkById(String per_id) throws Exception{
+		return (ArrSitioPeriodoPK) mngDao.findById(ArrSitioPeriodoPK.class, per_id);
+	}
+	
+	/**
+	 * Metodo para insertar un 
+	 * 
+	 * @param art_id
+	 * @param prd_id
+	 * @param nombre
+	 * @param capacidad
+	 * @param libres
+	 * @param valor_arriendo
+	 * @param genero
+	 * @throws Exception
+	 */
+	public void insertarSitio(Integer art_id, String prd_id, String nombre, Integer capacidad,Integer libres,BigDecimal valor_arriendo,String genero)
+			throws Exception {
+		try {
+			ArrSitioPeriodo per= new ArrSitioPeriodo();
+			
+			ArrSitioPeriodoPK sp_pk=new ArrSitioPeriodoPK();
+			sp_pk.setPrdId(prd_id);
+			sp_pk.setArtId(art_id);
+			
+			per.setId(sp_pk);
+			per.setSitCapacidad(capacidad);
+			per.setSitGenero(genero);
+			per.setSitLibres(libres);
+			per.setSitNombre(nombre);
+			per.setSitValorArriendo(valor_arriendo);
+			ArrPeriodo p =this.PeriodoById(prd_id);
+			per.setArrPeriodo(p);
+			mngDao.insertar(per);
+			System.out.println("Bien_insertar_sitio-periodo");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}// Cierre del metodo
+	
 //	/**
 //	 * Metodo para editar datos de un atributo
 //	 * @param per_id
@@ -185,9 +218,10 @@ public class ManagerCarga {
 //	 * @param estado
 //	 * @throws Exception
 //	 */
-//	public void editarPeriodo (String per_id, String descripcion, Date fecha_inicio, Date fecha_fin,String estado)
+//	public void editarSitio (Integer art_id, String prd_id, String nombre, Integer capacidad,Integer libres,BigDecimal valor_arriendo,String genero)
 //			throws Exception {
 //		try {
+//			ArrSitioPeriodoPK per=SitiosPkById()
 //			ArrPeriodo per= this.PeridoById(per_id);
 //			per.setPrdDescripcion(descripcion);
 //			per.setPrdFechaInicio(fecha_inicio);
