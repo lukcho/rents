@@ -28,6 +28,12 @@ public class Funciones {
 	public static String estadoFinalizado = "F";
 	public static String valorEstadoFinalizado = "Finalizado";
 	
+	//Atributos de Genero
+	public static String estadoFemenino = "F";
+	public static String valorEstadoFemenino = "Femenino";
+	public static String estadoMasculino = "M";
+	public static String valorEstadoMasculino = "Masculino";
+	
 	public static Integer mayoriaDeEdad = 18;
 		
 	public static String hostWS = "http://10.1.0.158:8080/sgupy/";
