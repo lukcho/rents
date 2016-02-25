@@ -1,5 +1,6 @@
 package viviendas.controller.carga;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,8 +8,13 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 
+import viviendas.model.conn.entities.GEN_Areas;
+import viviendas.model.conn.entities.GEN_Sitios;
 import viviendas.model.dao.entities.ArrPeriodo;
+import viviendas.model.dao.entities.ArrSitioPeriodoPK;
 import viviendas.model.generic.Funciones;
 import viviendas.model.generic.Mensaje;
 import viviendas.model.manager.ManagerCarga;
@@ -24,227 +30,196 @@ public class SitiosBean {
 	// Atributos de la Clase
 	private ManagerCarga manager;
 
-	private String prdId;
-	private String prdDescripcion;
-	private String prdEstado;
-	private Date prdFechaFin;
-	private Date prdFechaInicio;
-	private boolean edicion;
+	private ArrSitioPeriodoPK id;
+	private Integer sitCapacidad;
+	private Integer sitLibres;
+	private String sitGenero;
+	private String sitNombre;
+	private BigDecimal sitValorArriendo;
+	
+	//atributos de bloque
+	private boolean bcampos;
+	
+	private List<GEN_Sitios> lsitios;
 
 	public SitiosBean() {
 		manager = new ManagerCarga();
-		edicion = false;
+		bcampos=true;
+		lsitios=new ArrayList<GEN_Sitios>();
 	}
 
 	/**
-	 * @return the edicion
+	 * @return the bcampos
 	 */
-	public boolean isEdicion() {
-		return edicion;
+	public boolean isBcampos() {
+		return bcampos;
 	}
 
 	/**
-	 * @param edicion
-	 *            the edicion to set
+	 * @param bcampos the bcampos to set
 	 */
-	public void setEdicion(boolean edicion) {
-		this.edicion = edicion;
+	public void setBcampos(boolean bcampos) {
+		this.bcampos = bcampos;
 	}
 
 	/**
-	 * @return the prdId
+	 * @return the lsitios
 	 */
-	public String getPrdId() {
-		return prdId;
+	public List<GEN_Sitios> getLsitios() {
+		return lsitios;
 	}
 
 	/**
-	 * @param prdId
-	 *            the prdId to set
+	 * @param lsitios the lsitios to set
 	 */
-	public void setPrdId(String prdId) {
-		this.prdId = prdId;
+	public void setLsitios(List<GEN_Sitios> lsitios) {
+		this.lsitios = lsitios;
 	}
 
 	/**
-	 * @return the prdDescripcion
+	 * @return the id
 	 */
-	public String getPrdDescripcion() {
-		return prdDescripcion;
+	public ArrSitioPeriodoPK getId() {
+		return id;
 	}
 
 	/**
-	 * @param prdDescripcion
-	 *            the prdDescripcion to set
+	 * @param id
+	 *            the id to set
 	 */
-	public void setPrdDescripcion(String prdDescripcion) {
-		this.prdDescripcion = prdDescripcion;
+	public void setId(ArrSitioPeriodoPK id) {
+		this.id = id;
 	}
 
 	/**
-	 * @return the prdEstado
+	 * @return the sitCapacidad
 	 */
-	public String getPrdEstado() {
-		return prdEstado;
+	public Integer getSitCapacidad() {
+		return sitCapacidad;
 	}
 
 	/**
-	 * @param prdEstado
-	 *            the prdEstado to set
+	 * @param sitCapacidad
+	 *            the sitCapacidad to set
 	 */
-	public void setPrdEstado(String prdEstado) {
-		this.prdEstado = prdEstado;
+	public void setSitCapacidad(Integer sitCapacidad) {
+		this.sitCapacidad = sitCapacidad;
 	}
 
 	/**
-	 * @return the prdFechaFin
+	 * @return the sitLibres
 	 */
-	public Date getPrdFechaFin() {
-		return prdFechaFin;
+	public Integer getSitLibres() {
+		return sitLibres;
 	}
 
 	/**
-	 * @param prdFechaFin
-	 *            the prdFechaFin to set
+	 * @param sitLibres
+	 *            the sitLibres to set
 	 */
-	public void setPrdFechaFin(Date prdFechaFin) {
-		this.prdFechaFin = prdFechaFin;
+	public void setSitLibres(Integer sitLibres) {
+		this.sitLibres = sitLibres;
 	}
 
 	/**
-	 * @return the prdFechaInicio
+	 * @return the sitGenero
 	 */
-	public Date getPrdFechaInicio() {
-		return prdFechaInicio;
+	public String getSitGenero() {
+		return sitGenero;
 	}
 
 	/**
-	 * @param prdFechaInicio
-	 *            the prdFechaInicio to set
+	 * @param sitGenero
+	 *            the sitGenero to set
 	 */
-	public void setPrdFechaInicio(Date prdFechaInicio) {
-		this.prdFechaInicio = prdFechaInicio;
-	}
-
-	public List<ArrPeriodo> getListPeriodo() {
-		return manager.todosPeriodos();
+	public void setSitGenero(String sitGenero) {
+		this.sitGenero = sitGenero;
 	}
 
 	/**
-	 * Redirecciona a la pagina de creacion de sitios
-	 * 
-	 * @return
+	 * @return the sitNombre
 	 */
-	public String nuevoPeriodo() {
-		edicion = false;
-		return "nperiodo?faces-redirect=true";
+	public String getSitNombre() {
+		return sitNombre;
 	}
 
 	/**
-	 * Permite la creacion o modificacion de una institucion
-	 * 
-	 * @return
+	 * @param sitNombre
+	 *            the sitNombre to set
 	 */
-	public String crearPeriodo() {
-		String r = "";
-		try {
-			if (prdFechaInicio==null || prdFechaFin==null )
-				Mensaje.crearMensajeERROR("Las fechas son valores invalidos");
-			if (edicion) {	
-				manager.editarPeriodo(prdId, prdDescripcion, prdFechaInicio,
-						prdFechaFin, prdEstado);
-				Mensaje.crearMensajeINFO("Actualizado - Periodo Modificada");
-				r = "periodo?faces-redirect=true";
-				// limpiar datos
-				prdId = "";
-				prdDescripcion = "";
-				prdFechaInicio = null;
-				prdFechaFin = null;
-				prdEstado = "A";
-				edicion = false;
-			} else {
-				if (prdFechaInicio.after(prdFechaFin)){
-					Mensaje.crearMensajeERROR("Las fecha fin es menor que la fecha inicio");
-					}
-				else{
-				this.cambioEstado();
-				manager.insertarPeriodo(prdId, prdDescripcion, prdFechaInicio,
-						prdFechaFin, "A");
-				Mensaje.crearMensajeINFO("Registrado - Periodo Creada");
-				r = "periodo?faces-redirect=true";
-				// limpiar datos
-				prdId = "";
-				prdDescripcion = "";
-				prdFechaInicio = null;
-				prdFechaFin = null;
-				prdEstado = "A";
-				edicion = false;
-				}
-			}
-		} catch (Exception e) {
-			Mensaje.crearMensajeERROR(e.getMessage());
-		}
-		return r;
-	}
-	
-	public void cambioEstado(){
-			try {
-				List<ArrPeriodo> p=manager.PeriodosActivos();
-				if (p!=null){
-				for (ArrPeriodo per : p) {
-				manager.editarPeriodoEstado(per.getPrdId(), "I");}
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	public void setSitNombre(String sitNombre) {
+		this.sitNombre = sitNombre;
 	}
 
 	/**
-	 * Metodo para cargar una Intitucion para su edicion
-	 * 
-	 * @param t
-	 * @return
+	 * @return the sitValorArriendo
 	 */
-	public String cargarPeriodo(ArrPeriodo t) {
-		prdId = t.getPrdId();
-		prdDescripcion = t.getPrdDescripcion();
-		prdFechaFin = t.getPrdFechaFin();
-		prdFechaInicio = t.getPrdFechaInicio();
-		prdEstado = t.getPrdEstado();
-		edicion = true;
-		return "nperiodo?faces-redirect=true";
+	public BigDecimal getSitValorArriendo() {
+		return sitValorArriendo;
 	}
 
 	/**
-	 * Cancela la accion de modificar o crear Institucion
-	 * 
-	 * @return
+	 * @param sitValorArriendo
+	 *            the sitValorArriendo to set
 	 */
-	public String salir() {
-		// limpiar datos
-		prdId = "";
-		prdDescripcion = "";
-		prdFechaInicio = null;
-		prdFechaFin = null;
-		prdEstado = "A";
-		edicion = false;
-		return "periodo?faces-redirect=true";
+	public void setSitValorArriendo(BigDecimal sitValorArriendo) {
+		this.sitValorArriendo = sitValorArriendo;
 	}
 
 	/**
-	 * Lista de estados
+	 * Lista de periodos
 	 * 
 	 * @return lista de items de estados
 	 */
-	public List<SelectItem> getlistEstados() {
+	public List<SelectItem> getlistPeriodo() {
 		List<SelectItem> lista = new ArrayList<SelectItem>();
-		lista.add(new SelectItem(Funciones.estadoActivo, Funciones.estadoActivo
-				+ " : " + Funciones.valorEstadoActivo));
-		lista.add(new SelectItem(Funciones.estadoInactivo,
-				Funciones.estadoInactivo + " : "
-						+ Funciones.valorEstadoInactivo));
+		ArrPeriodo per = manager.PeriodoAct();
+		if (per!=null)
+			lista.add(new SelectItem(per.getPrdId(), per.getPrdId()));
 		return lista;
 	}
-
+	
+	/**
+	 * Lista de areas
+	 * 
+	 * @return lista de items de estados
+	 */
+	public List<SelectItem> getlistAreas() {
+		List<SelectItem> lista = new ArrayList<SelectItem>();
+		try {
+			for (GEN_Areas a : manager.findAllAreasActivas(null)) {
+				lista.add(new SelectItem(a.getAre_id(), a.getAre_nombre()));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			lista = null;
+		}
+		return lista;
+	}
+	
+	/**
+	 * Lista de Genero
+	 * 
+	 * @return lista de items de genero
+	 */
+	public List<SelectItem> getlistGenero() {
+		List<SelectItem> lista = new ArrayList<SelectItem>();
+		lista.add(new SelectItem(Funciones.estadoMasculino, Funciones.estadoMasculino
+				+ " : " + Funciones.valorEstadoMasculino));
+		lista.add(new SelectItem(Funciones.estadoFemenino,
+				Funciones.estadoFemenino + " : "
+						+ Funciones.valorEstadoFemenino));
+		return lista;
+	}
+	
+	public void validar(){
+		if (id.getPrdId()==null || id.getPrdId().equals("-1")){
+			bcampos=true;
+		}else{
+			bcampos=false;
+		}
+		System.out.println(bcampos);
+	}
+	
 }
