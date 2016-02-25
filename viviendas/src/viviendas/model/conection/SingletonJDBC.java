@@ -13,7 +13,7 @@ import java.sql.Statement;
  */
 public class SingletonJDBC {
 
-	private static String URL = "jdbc:postgresql://localhost:5432/sis_colegio";
+	private static String URL = "jdbc:postgresql://localhost:5432/yachay";
 	private static String USER = "postgres";
 	private static String PASS = "root";
 	private static String CONTROLER = "org.postgresql.Driver"; 
