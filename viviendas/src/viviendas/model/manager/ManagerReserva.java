@@ -114,7 +114,7 @@ public class ManagerReserva {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ArrSitioPeriodo> sitiosLibresPorPeriodoGenero(String prdID, String genero) throws Exception{
+	public List<ArrSitioPeriodo> sitiosLibresPorPeriodoGenero(String prdID, String genero){
 		return mngDao.findWhere(ArrSitioPeriodo.class, "o.id.prdId='"+prdID+"'"
 				+ " AND o.sitLibres>0 AND sitGenero='"+genero+"'", null);
 	}
