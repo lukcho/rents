@@ -19,7 +19,7 @@ public class ArrPeriodo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="prd_id", length=20)
+	@Column(name="prd_id", length=50)
 	private String prdId;
 
 	@Column(name="prd_descripcion", columnDefinition="text")

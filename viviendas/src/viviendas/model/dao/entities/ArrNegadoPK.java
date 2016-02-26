@@ -16,7 +16,7 @@ public class ArrNegadoPK implements Serializable {
 	@Column(name="per_dni", length=20)
 	private String perDni;
 
-	@Column(name="prd_id", length=20)
+	@Column(name="prd_id", length=50)
 	private String prdId;
 
 	public ArrNegadoPK() {
