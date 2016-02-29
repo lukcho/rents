@@ -2,6 +2,7 @@ package viviendas.controller.reserve;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -36,6 +37,8 @@ public class ReservaBean implements Serializable{
 	private String nombreRepresentante;
 	private ArrMatriculado estudiante;
 	private ArrReserva reserva;
+	private Integer sitioId;
+	private HashMap<Integer, ArrSitioPeriodo> hashSitios;
 	private ArrSitioPeriodo sitio;
 	private List<SelectItem> sitiosLibres;
 	private List<ArrMatriculado> reservasSitio;
@@ -47,6 +50,7 @@ public class ReservaBean implements Serializable{
 	public ReservaBean() {
 		mngRes = new ManagerReserva();
 		periodo = mngRes.buscarPeriodoActivo();
+		hashSitios = new HashMap<Integer, ArrSitioPeriodo>();
 		sitiosLibres = new ArrayList<SelectItem>();
 		reservasSitio = new ArrayList<ArrMatriculado>();
 		tokenOk = false;
@@ -124,6 +128,20 @@ public class ReservaBean implements Serializable{
 		this.estudiante = estudiante;
 	}
 		
+	/**
+	 * @return the sitioId
+	 */
+	public Integer getSitioId() {
+		return sitioId;
+	}
+
+	/**
+	 * @param sitioId the sitioId to set
+	 */
+	public void setSitioId(Integer sitioId) {
+		this.sitioId = sitioId;
+	}
+
 	/**
 	 * @return the sitio
 	 */
@@ -320,9 +338,11 @@ public class ReservaBean implements Serializable{
 	private void cargarSitiosLibres(){
 		List<ArrSitioPeriodo> listado = mngRes.sitiosLibresPorPeriodoGenero(getDniEstudiante(), getEstudiante().getMatGenero());
 		getSitiosLibres().clear();
+		hashSitios.clear();
 		if(listado!=null && !listado.isEmpty()){
 			for (ArrSitioPeriodo sitio : listado) {
-				getSitiosLibres().add(new SelectItem(sitio, sitio.getSitNombre()));
+				getSitiosLibres().add(new SelectItem(sitio.getId().getArtId(), sitio.getSitNombre()));
+				hashSitios.put(sitio.getId().getArtId(), sitio);
 			}
 		}	
 	}
@@ -331,9 +351,16 @@ public class ReservaBean implements Serializable{
 	 * Carga de estudiantes pertenecientes a un sitio
 	 */
 	public void cargarEstudiantesSitio(){
-		List<ArrMatriculado> listado = mngRes.matriculadosEnSitioPorPeriodo(getSitio().getId().getArtId(), periodo.getPrdId());
+		List<ArrMatriculado> listado = mngRes.matriculadosEnSitioPorPeriodo(sitioId, periodo.getPrdId());
 		getReservasSitio().clear();
 		if(listado!=null  && !listado.isEmpty())
 			getReservasSitio().addAll(listado);
+	}
+	
+	/**
+	 * Asignar a la variable de sitio en selecOneMenu
+	 */
+	public void seleccionSitio(){
+		sitio = hashSitios.get(sitioId);
 	}
 }
