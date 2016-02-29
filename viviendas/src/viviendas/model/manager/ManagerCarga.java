@@ -1,6 +1,5 @@
 package viviendas.model.manager;
 
-import java.awt.font.NumericShaper;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -169,6 +168,22 @@ public class ManagerCarga {
 	 * @return
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("unchecked")
+	public List<ArrSitioPeriodo> SitiosByPeriodo(String per_id) throws Exception{
+		List<ArrSitioPeriodo> ls= mngDao.findWhere(ArrSitioPeriodo.class, "o.id.prdId='"+per_id+"'", null);
+		if (ls.isEmpty()){
+			return null;
+		}else{
+			return ls;
+		}
+	}
+	
+	/**
+	 * Metodo para obtener un atributo por id 
+	 * @param per_id
+	 * @return
+	 * @throws Exception 
+	 */
 	public ArrSitioPeriodoPK SitiosPkById(String per_id) throws Exception{
 		return (ArrSitioPeriodoPK) mngDao.findById(ArrSitioPeriodoPK.class, per_id);
 	}
@@ -189,11 +204,9 @@ public class ManagerCarga {
 			throws Exception {
 		try {
 			ArrSitioPeriodo per= new ArrSitioPeriodo();
-			
 			ArrSitioPeriodoPK sp_pk=new ArrSitioPeriodoPK();
 			sp_pk.setPrdId(prd_id);
 			sp_pk.setArtId(art_id);
-			
 			per.setId(sp_pk);
 			per.setSitCapacidad(capacidad);
 			per.setSitGenero(genero);
@@ -209,6 +222,20 @@ public class ManagerCarga {
 		}
 	}// Cierre del metodo
 	
+	
+	/**
+	 * Metod para eliminar un ArrSitioPeriodo
+	 * 
+	 * @param sit
+	 */
+	public void eliminarSitio(ArrSitioPeriodo sit){
+		try {
+			mngDao.eliminar(ArrSitioPeriodo.class, sit.getId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 //	/**
 //	 * Metodo para editar datos de un atributo
 //	 * @param per_id
@@ -334,6 +361,41 @@ public class ManagerCarga {
 		}
 		return li;
 	}
+	
+	/**
+	 * Metodo para listar todas las Areas Activas de un Area
+	 * 
+	 * @param order
+	 * @return lista de Arr
+	 * @throws Exception
+	 */
+	public List<GEN_Sitios> findAllSitiosXArea(Integer id_area,String order)
+			throws Exception {
+		ResultSet r = null;
+		List<GEN_Sitios> li = new ArrayList<GEN_Sitios>();
+		if (order == null) {
+			r = conDao.consultaSQL("Select * from gen_sitios where sit_estado='A' and are_id="+id_area+";");
+		} else {
+			r = conDao.consultaSQL("Select * from gen_sitios order by "
+					+ order + ";");
+		}
+		if (r == null) {
+			throw new Exception("La consulta no obtuvo resultados.");
+		} else {
+			while (r.next()) {
+				GEN_Sitios sit = new GEN_Sitios();
+				sit.setSit_id(r.getInt("sit_id"));
+				sit.setSit_capacidad(r.getInt("sit_capacidad"));
+				sit.setSit_nombre(r.getString("sit_nombre"));
+				sit.setSit_costo_arriendo(r.getDouble("sit_costo_arriendo"));
+				sit.setSit_estado(r.getString("sit_estado").charAt(0));
+				sit.setgEN_TipoSitios(r.getInt("tsi_id"));
+				sit.setgEN_Areas(r.getInt("are_id"));
+				li.add(sit);
+			}
+		}
+		return li;
+	}
 
 	/**
 	 * Metodo para buscar una Area por ID
@@ -347,6 +409,38 @@ public class ManagerCarga {
 		ResultSet r = conDao
 				.consultaSQL("Select * from gen_sitios where sit_id="
 						+ per_id + ";");
+		GEN_Sitios sit = new GEN_Sitios();
+		int cont = 0;
+		if (r == null) {
+			throw new Exception("La consulta no obtuvo resultados.");
+		} else {
+			while (r.next()) {
+				sit.setSit_id(r.getInt("sit_id"));
+				sit.setSit_capacidad(r.getInt("sit_capacidad"));
+				sit.setSit_nombre(r.getString("sit_nombre"));
+				sit.setSit_costo_arriendo(r.getDouble("sit_costo_arriendo"));
+				sit.setSit_estado(r.getString("sit_estado").charAt(0));
+				sit.setgEN_TipoSitios(r.getInt("tsi_id"));
+				sit.setgEN_Areas(r.getInt("are_id"));
+				cont++;
+			}
+		}
+		if (cont > 1)
+			throw new Exception("La consulta obtuvo varios resultados.");
+		return sit;
+	}
+	
+	/**
+	 * Metodo para buscar una Area por ID
+	 * 
+	 * @param per_id
+	 * @return persona
+	 * @throws Exception
+	 */
+	public GEN_Sitios findSitioById(String nom)
+			throws Exception {
+		ResultSet r = conDao
+				.consultaSQL("Select * from gen_sitios where sit_nombre='"+ nom.trim() + "';");
 		GEN_Sitios sit = new GEN_Sitios();
 		int cont = 0;
 		if (r == null) {
