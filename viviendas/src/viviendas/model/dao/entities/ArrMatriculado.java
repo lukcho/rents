@@ -19,6 +19,9 @@ public class ArrMatriculado implements Serializable {
 	@EmbeddedId
 	private ArrMatriculadoPK id;
 	
+	@Column(name="mat_nombre", length=300)
+	private String matNombre;
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name="mat_fecha_nacimiento")
 	private Date matFechaNacimiento;
@@ -61,6 +64,14 @@ public class ArrMatriculado implements Serializable {
 
 	public void setId(ArrMatriculadoPK id) {
 		this.id = id;
+	}
+	
+	public String getMatNombre() {
+		return matNombre;
+	}
+	
+	public void setMatNombre(String matNombre) {
+		this.matNombre = matNombre;
 	}
 	
 	public Date getMatFechaNacimiento() {
