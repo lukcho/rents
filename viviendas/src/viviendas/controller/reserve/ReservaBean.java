@@ -362,5 +362,6 @@ public class ReservaBean implements Serializable{
 	 */
 	public void seleccionSitio(){
 		sitio = hashSitios.get(sitioId);
+		//cargarEstudiantesSitio();
 	}
 }
