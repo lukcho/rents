@@ -30,10 +30,18 @@ public class SitiosBean {
 	private String prdId;
 	private Integer areId;
 	private String sitGenero;
-	
+
+	// Atributos de edicion
+	private Integer artId;
+	private Integer sitCapacidad;
+	private Integer sitLibres;
+	private String sitNombre;
+	private BigDecimal sitValorArriendo;
+
 	// atributos de bloque
 	private boolean bcampos;
 
+	// listas de sitios y sitios_periodos
 	private List<String> lsitios;
 	private List<ArrSitioPeriodo> lsitper;
 
@@ -42,6 +50,81 @@ public class SitiosBean {
 		bcampos = true;
 		lsitios = new ArrayList<String>();
 		lsitper = new ArrayList<ArrSitioPeriodo>();
+	}
+
+	/**
+	 * @return the artId
+	 */
+	public Integer getArtId() {
+		return artId;
+	}
+
+	/**
+	 * @param artId
+	 *            the artId to set
+	 */
+	public void setArtId(Integer artId) {
+		this.artId = artId;
+	}
+
+	/**
+	 * @return the sitCapacidad
+	 */
+	public Integer getSitCapacidad() {
+		return sitCapacidad;
+	}
+
+	/**
+	 * @param sitCapacidad
+	 *            the sitCapacidad to set
+	 */
+	public void setSitCapacidad(Integer sitCapacidad) {
+		this.sitCapacidad = sitCapacidad;
+	}
+
+	/**
+	 * @return the sitLibres
+	 */
+	public Integer getSitLibres() {
+		return sitLibres;
+	}
+
+	/**
+	 * @param sitLibres
+	 *            the sitLibres to set
+	 */
+	public void setSitLibres(Integer sitLibres) {
+		this.sitLibres = sitLibres;
+	}
+
+	/**
+	 * @return the sitNombre
+	 */
+	public String getSitNombre() {
+		return sitNombre;
+	}
+
+	/**
+	 * @param sitNombre
+	 *            the sitNombre to set
+	 */
+	public void setSitNombre(String sitNombre) {
+		this.sitNombre = sitNombre;
+	}
+
+	/**
+	 * @return the sitValorArriendo
+	 */
+	public BigDecimal getSitValorArriendo() {
+		return sitValorArriendo;
+	}
+
+	/**
+	 * @param sitValorArriendo
+	 *            the sitValorArriendo to set
+	 */
+	public void setSitValorArriendo(BigDecimal sitValorArriendo) {
+		this.sitValorArriendo = sitValorArriendo;
 	}
 
 	/**
@@ -119,8 +202,6 @@ public class SitiosBean {
 		this.lsitios = lsitios;
 	}
 
-
-
 	/**
 	 * @return the sitGenero
 	 */
@@ -143,7 +224,7 @@ public class SitiosBean {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		 return lsitper;
+		return lsitper;
 	}
 
 	/**
@@ -238,7 +319,8 @@ public class SitiosBean {
 	}
 
 	/**
-	 * Metodo para activar las selecciones y mostrar las listas en base a un periodo
+	 * Metodo para activar las selecciones y mostrar las listas en base a un
+	 * periodo
 	 */
 	public void validarYCarga() {
 		if (prdId == null || prdId.equals("-1")) {
@@ -251,10 +333,45 @@ public class SitiosBean {
 	}
 
 	/**
-	 * Metodo para cargar los sitios 
+	 * Metodo para cargar los sitios
 	 */
 	public void cargarSitios() {
 		this.getlistSitios();
+	}
+
+	/**
+	 * Metodo para cargar un Sitio para su edicion
+	 * 
+	 * @param t
+	 * @return
+	 */
+	public String cargarSitio(ArrSitioPeriodo sp) {
+		prdId = sp.getId().getPrdId();
+		artId = sp.getId().getArtId();
+		sitCapacidad = sp.getSitCapacidad();
+		sitGenero = sp.getSitGenero();
+		sitLibres = sp.getSitLibres();
+		sitNombre = sp.getSitNombre();
+		sitValorArriendo = sp.getSitValorArriendo();
+		return "nsitios?faces-redirect=true";
+	}
+
+	public String editarSitio() {
+		try {
+			manager.editarSitio(artId, prdId, sitCapacidad, sitValorArriendo,
+					sitGenero);
+			//limpiar datos
+			artId = null;
+			sitCapacidad = null;
+			sitGenero = null;
+			sitLibres = null;
+			sitNombre = "";
+			sitValorArriendo = null;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "sitios?faces-redirect=true";
 	}
 
 	/**
@@ -289,5 +406,21 @@ public class SitiosBean {
 	public void eliminar(ArrSitioPeriodo sitio) {
 		manager.eliminarSitio(sitio);
 		this.getListSitiosPer();
+	}
+
+	/**
+	 * Cancela la accion de modificar un Sitio
+	 * 
+	 * @return
+	 */
+	public String salir() {
+		// limpiar datos
+		artId = null;
+		sitCapacidad = null;
+		sitGenero = null;
+		sitLibres = null;
+		sitNombre = "";
+		sitValorArriendo = null;
+		return "sitios?faces-redirect=true";
 	}
 }

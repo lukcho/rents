@@ -154,12 +154,18 @@ public class ManagerCarga {
 	
 	/**
 	 * Metodo para obtener un atributo por id 
-	 * @param per_id
+	 * @param per_id, art_id
 	 * @return
 	 * @throws Exception 
 	 */
-	public ArrSitioPeriodo SitiosById(String per_id) throws Exception{
-		return (ArrSitioPeriodo) mngDao.findById(ArrSitioPeriodo.class, per_id);
+	@SuppressWarnings("unchecked")
+	public ArrSitioPeriodo SitiosById(String per_id, Integer art_id) throws Exception{
+		List<ArrSitioPeriodo> ls= mngDao.findWhere(ArrSitioPeriodo.class, "o.id.prdId='"+per_id+"' and o.id.artId="+art_id+"", null);
+		if (ls.isEmpty()){
+			return null;
+		}else{
+			return ls.get(0);
+		}
 	}
 	
 	/**
@@ -236,30 +242,29 @@ public class ManagerCarga {
 			e.printStackTrace();
 		}
 	}
-//	/**
-//	 * Metodo para editar datos de un atributo
-//	 * @param per_id
-//	 * @param descripcion
-//	 * @param fecha_inicio
-//	 * @param fecha_fin
-//	 * @param estado
-//	 * @throws Exception
-//	 */
-//	public void editarSitio (Integer art_id, String prd_id, String nombre, Integer capacidad,Integer libres,BigDecimal valor_arriendo,String genero)
-//			throws Exception {
-//		try {
-//			ArrSitioPeriodoPK per=SitiosPkById()
-//			ArrPeriodo per= this.PeridoById(per_id);
-//			per.setPrdDescripcion(descripcion);
-//			per.setPrdFechaInicio(fecha_inicio);
-//			per.setPrdFechaFin(fecha_fin);
-//			per.setPrdEstado(estado);
-//			mngDao.actualizar(per);
-//			System.out.println("Bien_editar_periodo");
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}// Cierre del metodo
+	/**
+	 * Metodo para editar datos de un atributo
+	 * @param per_id
+	 * @param descripcion
+	 * @param fecha_inicio
+	 * @param fecha_fin
+	 * @param estado
+	 * @throws Exception
+	 */
+	public void editarSitio (Integer art_id, String prd_id, Integer capacidad,BigDecimal valor_arriendo,String genero)
+			throws Exception {
+		try {
+			ArrSitioPeriodo sp = this.SitiosById(prd_id, art_id);
+			sp.setSitCapacidad(capacidad);
+			sp.setSitGenero(genero);
+			sp.setSitLibres(capacidad);
+			sp.setSitValorArriendo(valor_arriendo);
+			mngDao.actualizar(sp);
+			System.out.println("Bien_editar_sitio");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}// Cierre del metodo
 	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
