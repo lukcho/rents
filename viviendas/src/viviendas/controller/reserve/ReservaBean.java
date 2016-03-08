@@ -249,7 +249,8 @@ public class ReservaBean implements Serializable{
 					cargarSitiosLibres();
 					RequestContext.getCurrentInstance().execute("PF('dlgtoken').hide();");
 				}
-			}			
+			}
+			setToken("");
 		} catch (Exception e) {
 			Mensaje.crearMensajeERROR("Error al validar token: "+e.getMessage());
 			e.printStackTrace();
@@ -336,7 +337,7 @@ public class ReservaBean implements Serializable{
 	 * Cargar List<SelectItem> de sitios disponibles
 	 */
 	private void cargarSitiosLibres(){
-		List<ArrSitioPeriodo> listado = mngRes.sitiosLibresPorPeriodoGenero(getDniEstudiante(), getEstudiante().getMatGenero());
+		List<ArrSitioPeriodo> listado = mngRes.sitiosLibresPorPeriodoGenero(periodo.getPrdId(), getEstudiante().getMatGenero());
 		getSitiosLibres().clear();
 		hashSitios.clear();
 		if(listado!=null && !listado.isEmpty()){
@@ -364,4 +365,9 @@ public class ReservaBean implements Serializable{
 		sitio = hashSitios.get(sitioId);
 		//cargarEstudiantesSitio();
 	}
+	
+	public void abrirDialog(){
+		RequestContext.getCurrentInstance().execute("PF('dlgtoken').show();");
+	}
+	
 }
