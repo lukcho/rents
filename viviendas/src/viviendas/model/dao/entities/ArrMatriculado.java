@@ -25,7 +25,7 @@ public class ArrMatriculado implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name="mat_fecha_nacimiento")
 	private Date matFechaNacimiento;
-
+	
 	@Column(name="mat_carrera", length=150)
 	private String matCarrera;
 
