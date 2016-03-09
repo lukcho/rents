@@ -82,14 +82,13 @@ public class ManagerReserva {
 		estudiante.setMatToken(token);
 		mngDao.actualizar(estudiante);
 		StringBuilder destino = new StringBuilder();
-		if((estudiante.getMatCorreo()!=null || !estudiante.getMatCorreo().isEmpty()) && 
-				(estudiante.getMatCorreoIns()!=null || !estudiante.getMatCorreoIns().isEmpty())){
+		if(estudiante.getMatCorreo()!=null && estudiante.getMatCorreoIns()!=null){
 			destino.append(estudiante.getMatCorreo());
 			destino.append(",");
 			destino.append(estudiante.getMatCorreoIns());
-		}else if(estudiante.getMatCorreo()!=null || !estudiante.getMatCorreo().isEmpty())
+		}else if(estudiante.getMatCorreo()!=null)
 			destino.append(estudiante.getMatCorreo());
-		else if(estudiante.getMatCorreoIns()!=null || !estudiante.getMatCorreoIns().isEmpty())
+		else if(estudiante.getMatCorreoIns()!=null)
 			destino.append(estudiante.getMatCorreoIns());
 		Mail.generateAndSendEmail(destino.toString(),
 				"Token para reserva de vivienda",

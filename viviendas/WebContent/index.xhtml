@@ -120,12 +120,12 @@
 							</h:dataTable>
 						</b:column>
 					</b:row>
-					<b:row rendered="#{!reservaBean.mayorEdad}">
+					<b:row rendered="#{!reservaBean.mayorEdad} and #{reservaBean.tokenOk}">
 						<b:column span="12"><h4>Datos de representante (requerido)</h4></b:column>
 						<b:column span="12"><h:outputText style="font-style: oblique;color:#2fa4e7;" 
 						value="Al ser menor de edad necesitamos información de tu representante legal." /></b:column>
 					</b:row>
-					<b:row rendered="#{!reservaBean.mayorEdad}" style="margin-top:10px;">
+					<b:row rendered="#{!reservaBean.mayorEdad} and #{reservaBean.tokenOk}" style="margin-top:10px;">
 						<b:column col-lg="1" col-md="1" col-sm="1" col-xs="2">
 							<strong>C&eacute;dula:</strong>
 						</b:column>
