@@ -53,9 +53,10 @@ public class ReservaBean implements Serializable{
 		hashSitios = new HashMap<Integer, ArrSitioPeriodo>();
 		sitiosLibres = new ArrayList<SelectItem>();
 		reservasSitio = new ArrayList<ArrMatriculado>();
-		tokenOk = false;
-		mayorEdad = false;
+		tokenOk = true;
+		mayorEdad = true;
 		finalizado = false;
+		sitioId = 0;
 	}
 
 	/**
@@ -286,7 +287,9 @@ public class ReservaBean implements Serializable{
 	 */
 	public void reservarSitio(){
 		try {
-			if(!mayorEdad && (getDniRepresentante()==null || getNombreRepresentante()==null 
+			if(sitioId==0)
+				Mensaje.crearMensajeWARN("Debe seleccionar sitio para la reserva.");
+			else if(!mayorEdad && (getDniRepresentante()==null || getNombreRepresentante()==null 
 					|| getDniRepresentante().trim().isEmpty() || getDniRepresentante().length()<9 || !Funciones.isNumeric(getDniRepresentante())
 					|| Funciones.validacionCedula(getDniRepresentante()) || getNombreRepresentante().trim().isEmpty()))
 				Mensaje.crearMensajeWARN("Los datos de representante son requeridos, y la cédula debe ser válida.");
@@ -306,7 +309,7 @@ public class ReservaBean implements Serializable{
 	 * Ingresar una nueva reserva
 	 */
 	private void ingresarReserva() throws Exception{
-		if(!mngRes.existeReservaPeriodo(getSitio().getId())){
+		if(mngRes.existeReservaPeriodo(getSitio().getId())){
 			if(mayorEdad)
 				mngRes.crearReserva(getEstudiante(), getSitio(), periodo.getPrdId(), null);
 			else
@@ -323,7 +326,7 @@ public class ReservaBean implements Serializable{
 	 * Modificar una reserva existente
 	 */
 	private void modificarReserva() throws Exception{
-		if(!mngRes.existeReservaPeriodo(getSitio().getId())){
+		if(mngRes.existeReservaPeriodo(getSitio().getId())){
 			if(mayorEdad)
 				mngRes.modificarReserva(getEstudiante(), periodo.getPrdId(), getSitio(), null);
 			else
@@ -344,6 +347,7 @@ public class ReservaBean implements Serializable{
 		getSitiosLibres().clear();
 		hashSitios.clear();
 		if(listado!=null && !listado.isEmpty()){
+			getSitiosLibres().add(new SelectItem(0, "Seleccionar"));
 			for (ArrSitioPeriodo sitio : listado) {
 				getSitiosLibres().add(new SelectItem(sitio.getId().getArtId(), sitio.getSitNombre()));
 				hashSitios.put(sitio.getId().getArtId(), sitio);
@@ -365,12 +369,21 @@ public class ReservaBean implements Serializable{
 	 * Asignar a la variable de sitio en selecOneMenu
 	 */
 	public void seleccionSitio(){
-		sitio = hashSitios.get(sitioId);
-		//cargarEstudiantesSitio();
+		if(sitioId!=0){
+			sitio = hashSitios.get(sitioId);
+			//cargarEstudiantesSitio();
+		}
 	}
 	
-	public void abrirDialog(){
-		RequestContext.getCurrentInstance().execute("PF('dlgtoken').show();");
+	/**
+	 * Muestra el nombre del sitio reservado
+	 * @return String
+	 */
+	public String sitioArrendado(){
+		if(reserva==null)
+			return "Todavía no posee un sitio reservado";
+		else
+			return reserva.getArrSitioPeriodo().getSitNombre();
 	}
 	
 }

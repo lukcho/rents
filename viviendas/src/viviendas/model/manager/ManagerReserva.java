@@ -53,7 +53,7 @@ public class ManagerReserva {
 		pk.setPrdId(prdID);
 		return (ArrMatriculado) mngDao.findById(ArrMatriculado.class, pk);
 	}
-
+	
 	/**
 	 * Busca un estudiante que se encuentra en lista negra en un periodo
 	 * @param perDNI
@@ -146,7 +146,8 @@ public class ManagerReserva {
 	 */
 	public boolean existeReservaPeriodo(ArrSitioPeriodoPK pkSitio) throws Exception{
 		ArrSitioPeriodo sitio = (ArrSitioPeriodo) mngDao.findById(ArrSitioPeriodo.class, pkSitio);
-		if(sitio.getSitLibres()>=0)
+		System.out.println("LIBRES: "+sitio.getSitLibres());
+		if(sitio.getSitLibres()>0)
 			return true;
 		else
 			return false;
@@ -237,9 +238,8 @@ public class ManagerReserva {
 	 * @param representante
 	 * @throws Exception
 	 */
-	@SuppressWarnings("null")
 	public void ingresarRepresentante(ArrMatriculado estudiante, String representante) throws Exception{
-		if(representante!=null || !representante.trim().isEmpty()){
+		if(representante!=null){
 			estudiante.setMatRepresDni((representante.split(";"))[0]);
 			estudiante.setMatRepresNombre((representante.split(";"))[1]);
 			mngDao.actualizar(estudiante);

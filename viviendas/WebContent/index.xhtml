@@ -78,15 +78,20 @@
 						</b:column>
 					</b:row>
 					<b:row rendered="#{reservaBean.tokenOk}">
-						<b:column><h4>Datos de reserva</h4></b:column>
+						<b:column><hr/></b:column>
+					</b:row>
+					<b:row rendered="#{reservaBean.tokenOk}" >
+						<b:column><h:outputText value="Datos de reserva:" style="font-size: 18px;color: #317EAC;"/>
+						&nbsp;&nbsp;<h:outputText value="#{reservaBean.sitioArrendado()}" /></b:column>
 					</b:row>
 					<b:row rendered="#{reservaBean.tokenOk}">
-						<b:column><h:outputText value="Departamento D-1-1" /></b:column>
+						<b:column><hr/></b:column>
 					</b:row>
 					<b:row rendered="#{reservaBean.tokenOk}">
-						<b:column><h4>Selecci&oacute;n de vivienda</h4></b:column>
+						<b:column><h4>Reservaci&oacute;n</h4></b:column>
 					</b:row>
 					<b:row rendered="#{reservaBean.tokenOk}">
+						<b:column col-lg="12" col-md="12" col-sm="12" col-xs="12">Selecci&oacute;n de vivienda:</b:column>
 						<b:column span="6">
 							<b:row>
 								<b:column span="12">
@@ -120,12 +125,15 @@
 							</h:dataTable>
 						</b:column>
 					</b:row>
-					<b:row rendered="#{!reservaBean.mayorEdad} and #{reservaBean.tokenOk}">
+					<b:row rendered="#{!reservaBean.mayorEdad}">
+						<b:column><hr/></b:column>
+					</b:row>
+					<b:row rendered="#{!reservaBean.mayorEdad}">
 						<b:column span="12"><h4>Datos de representante (requerido)</h4></b:column>
 						<b:column span="12"><h:outputText style="font-style: oblique;color:#2fa4e7;" 
 						value="Al ser menor de edad necesitamos información de tu representante legal." /></b:column>
 					</b:row>
-					<b:row rendered="#{!reservaBean.mayorEdad} and #{reservaBean.tokenOk}" style="margin-top:10px;">
+					<b:row rendered="#{!reservaBean.mayorEdad}" style="margin-top:10px;">
 						<b:column col-lg="1" col-md="1" col-sm="1" col-xs="2">
 							<strong>C&eacute;dula:</strong>
 						</b:column>
@@ -163,10 +171,12 @@
 		    		</b:row>
 		    		<b:row style="margin-top:10px;">
 		    			<b:column col-xs="3" styleClass="col-xs-offset-1">
-		    				<p:commandButton value="Aceptar" actionListener="#{reservaBean.validarToken()}" update="frmDlg" style="padding: .4em 0em;" styleClass="btn-default"/>
+		    				<p:commandButton value="Aceptar" actionListener="#{reservaBean.validarToken()}" update="frmDlg :frmUsr :frmRes" 
+		    					style="padding: .4em 0em;" styleClass="btn-default"/>
 		    			</b:column>
 		    			<b:column col-xs="3">
-		    				<p:commandButton value="Reenviar" actionListener="#{reservaBean.reenviarToken()}" update="frmDlg" style="padding: .4em 0em;" styleClass="btn-default"/>
+		    				<p:commandButton value="Reenviar" actionListener="#{reservaBean.reenviarToken()}" update="frmDlg" 
+		    					style="padding: .4em 0em;" styleClass="btn-default"/>
 		    			</b:column>
 		    			<b:column col-xs="3">
 		    				<p:button value="Cancelar" style="padding: .4em 0em;" styleClass="btn-default" onclick="PF('dlgtoken').hide();"/>
