@@ -288,6 +288,8 @@ public class ReservaBean implements Serializable{
 					modificarReserva();
 				else
 					ingresarReserva();
+				finalizado = true;
+				reserva = mngRes.buscarReservaPorID(getDniEstudiante(), periodo.getPrdId());//CARGAR RESERVA ACTUAL
 			}
 		} catch (Exception e) {
 			Mensaje.crearMensajeERROR("Error al realizar reserva: "+e.getMessage());
@@ -304,7 +306,6 @@ public class ReservaBean implements Serializable{
 				mngRes.crearReserva(getEstudiante(), getSitio(), periodo.getPrdId(), null);
 			else
 				mngRes.crearReserva(getEstudiante(), getSitio(), periodo.getPrdId(), getDniRepresentante()+";"+getNombreRepresentante());
-			finalizado = true;
 			Mensaje.crearMensajeINFO("Reserva realizada correctamente, no olvide descargar su contrato.");
 		}else{
 			Mensaje.crearMensajeWARN("El sitio seleccionado ya esta copado, favor eliga otro.");
@@ -321,7 +322,6 @@ public class ReservaBean implements Serializable{
 				mngRes.modificarReserva(getEstudiante(), periodo.getPrdId(), getSitio(), null);
 			else
 				mngRes.modificarReserva(getEstudiante(), periodo.getPrdId(), getSitio(), getDniRepresentante()+";"+getNombreRepresentante());
-			finalizado = true;
 			Mensaje.crearMensajeINFO("Reserva realizada correctamente, no olvide descargar su contrato.");
 		}else{
 			Mensaje.crearMensajeWARN("El sitio seleccionado ya esta copado, favor eliga otro.");
