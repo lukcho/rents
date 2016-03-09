@@ -269,7 +269,7 @@ public class ManagerReserva {
 		return mngDao.findWhere(ArrMatriculado.class, 
 				"o.id.prdId='"+prdID+"'"
 						+ " AND o.id.perDni IN"
-						+ " (SELECT r.perDni FROM ArrReserva"
+						+ " (SELECT r.perDni FROM ArrReserva r"
 						+ " WHERE r.arrSitioPeriodo.id.artId="+artID
 						+ " AND r.arrSitioPeriodo.id.prdId='"+prdID+"')", 
 				null);

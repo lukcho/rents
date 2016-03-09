@@ -281,7 +281,7 @@ public class ReservaBean implements Serializable{
 				Mensaje.crearMensajeWARN("Debe seleccionar sitio para la reserva.");
 			else if(!mayorEdad && (getDniRepresentante()==null || getNombreRepresentante()==null 
 					|| getDniRepresentante().trim().isEmpty() || getDniRepresentante().length()<9 || !Funciones.isNumeric(getDniRepresentante())
-					|| Funciones.validacionCedula(getDniRepresentante()) || getNombreRepresentante().trim().isEmpty()))
+					|| !Funciones.validacionCedula(getDniRepresentante()) || getNombreRepresentante().trim().isEmpty()))
 				Mensaje.crearMensajeWARN("Los datos de representante son requeridos, y la cédula debe ser válida.");
 			else{
 				if(reserva!=null)//POSEE RESERVA
