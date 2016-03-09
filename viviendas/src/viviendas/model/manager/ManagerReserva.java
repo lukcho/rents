@@ -6,6 +6,8 @@ import java.util.List;
 
 import viviendas.model.dao.entities.ArrMatriculado;
 import viviendas.model.dao.entities.ArrMatriculadoPK;
+import viviendas.model.dao.entities.ArrNegado;
+import viviendas.model.dao.entities.ArrNegadoPK;
 import viviendas.model.dao.entities.ArrPeriodo;
 import viviendas.model.dao.entities.ArrReserva;
 import viviendas.model.dao.entities.ArrSitioPeriodo;
@@ -50,6 +52,24 @@ public class ManagerReserva {
 		pk.setPerDni(perDNI);
 		pk.setPrdId(prdID);
 		return (ArrMatriculado) mngDao.findById(ArrMatriculado.class, pk);
+	}
+
+	/**
+	 * Busca un estudiante que se encuentra en lista negra en un periodo
+	 * @param perDNI
+	 * @param prdID
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean buscarNegadoPeriodo(String perDNI, String prdID) throws Exception{
+		ArrNegadoPK pk = new ArrNegadoPK();
+		pk.setPerDni(perDNI);
+		pk.setPrdId(prdID);
+		ArrNegado estudiante = (ArrNegado) mngDao.findById(ArrNegado.class, pk);
+		if(estudiante==null)
+			return false;
+		else
+			return true;
 	}
 	
 	/**

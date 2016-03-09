@@ -215,9 +215,12 @@ public class ReservaBean implements Serializable{
 				Mensaje.crearMensajeERROR("ERROR AL BUSCAR PERIODO HABILITADO");
 			else{
 				estudiante = mngRes.buscarMatriculadoPeriodo(getDniEstudiante(), periodo.getPrdId());
-				if(estudiante==null)
-					Mensaje.crearMensajeWARN("Usted no puede realizar una reserva.");
-				else{
+				if(estudiante==null){
+					if(mngRes.buscarNegadoPeriodo(getDniEstudiante(), periodo.getPrdId()))
+						Mensaje.crearMensajeWARN("Usted no puede realizar una reserva. Para más información diríjase a las oficinas de Bienestar Universitario.");
+					else
+						Mensaje.crearMensajeWARN("Usted no esta registrado. Para más información diríjase a las oficinas de Bienestar Universitario.");
+				}else{
 					mngRes.generarEnviarToken(getEstudiante());
 					RequestContext.getCurrentInstance().execute("PF('dlgtoken').show();");
 				}
