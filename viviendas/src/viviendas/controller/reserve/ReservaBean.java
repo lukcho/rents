@@ -53,7 +53,7 @@ public class ReservaBean implements Serializable{
 		hashSitios = new HashMap<Integer, ArrSitioPeriodo>();
 		sitiosLibres = new ArrayList<SelectItem>();
 		reservasSitio = new ArrayList<ArrMatriculado>();
-		tokenOk = true;
+		tokenOk = false;
 		mayorEdad = true;
 		finalizado = false;
 		sitioId = 0;
@@ -245,9 +245,7 @@ public class ReservaBean implements Serializable{
 				reserva = mngRes.buscarReservaPorID(getDniEstudiante(), periodo.getPrdId());
 				if(reserva!=null && reserva.getResEstado().equals(Funciones.estadoFinalizado))
 					Mensaje.crearMensajeWARN("Usted ya posee una reserva finalizada:");
-				else{
-					if(reserva!=null)
-						cargarReservaAnterior();					
+				else{				
 					tokenOk = true;
 					mayorEdad = Funciones.mayorDeEdad(getEstudiante().getMatFechaNacimiento());
 					cargarSitiosLibres();
@@ -261,14 +259,6 @@ public class ReservaBean implements Serializable{
 		}
 	}
 		
-	/**
-	 * Carga los datos de una reserva no finalizada
-	 */
-	private void cargarReservaAnterior() {
-		sitio = reserva.getArrSitioPeriodo();
-		//cargarEstudiantesSitio();
-	}
-
 	/**
 	 * Reenvio de token a estudiante
 	 */
