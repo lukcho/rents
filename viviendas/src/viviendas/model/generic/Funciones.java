@@ -10,6 +10,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Funciones {
 	
@@ -98,6 +100,18 @@ public class Funciones {
         }
     }
 	
+	 public static boolean validarEmail(String email) {
+		 
+	        // Definicion de pattern con la expresion regular
+	        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+	                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+	 
+	        // COmprobacion del correo ingresado
+	        Matcher matcher = pattern.matcher(email);
+	        return matcher.matches();
+	 
+	    }
+	
 	/**
 	 * Convierte un cadena en codigo SHA2
 	 * @param input  entrada de cadena para convertirla en SHA2
@@ -142,7 +156,21 @@ public class Funciones {
 	 * @throws ParseException
 	 */
 	public static Date stringToDate(String fecha) throws ParseException{
-		DateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+		DateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+		if(fecha.isEmpty())
+			return null;
+		else
+			return formato.parse(fecha);
+	}
+	
+	/**
+	 * Transforma un string de fecha en Date
+	 * @param fecha
+	 * @return Date
+	 * @throws ParseException
+	 */
+	public static Date stringToDateF(String fecha) throws ParseException{
+		DateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 		if(fecha.isEmpty())
 			return null;
 		else
