@@ -419,14 +419,14 @@ public class ReservaBean implements Serializable{
 	        setArchivo(new DefaultStreamedContent(((ServletContext)FacesContext.getCurrentInstance()
 				.getExternalContext().getContext()).getResourceAsStream(File.separatorChar+"contratos"+File.separatorChar+"error.pdf"), 
 				"texto/pdf", "error.pdf"));
-			System.out.println("FileNotFoundException: "+e.getMessage());  
+	        Mensaje.crearMensajeERROR("FileNotFoundException: "+e.getMessage());  
 	    } catch (DocumentException e) {
 	    	 setArchivo(new DefaultStreamedContent(((ServletContext)FacesContext.getCurrentInstance()
 	 				.getExternalContext().getContext()).getResourceAsStream(File.separatorChar+"contratos"+File.separatorChar+"error.pdf"), 
 	 				"texto/pdf", "error.pdf"));
-	    	 System.out.println("DocumentException: "+e.getMessage());
+	    	 Mensaje.crearMensajeERROR("DocumentException: "+e.getMessage());
 		} catch (Exception e) {
-			System.out.println("Error: "+e.getMessage());
+			 Mensaje.crearMensajeERROR("Error: "+e.getMessage());
 		}
 	}
 	
