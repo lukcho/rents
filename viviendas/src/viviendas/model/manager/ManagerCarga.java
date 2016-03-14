@@ -19,6 +19,7 @@ import viviendas.model.dao.entities.ArrReserva;
 import viviendas.model.dao.entities.ArrSitioPeriodo;
 import viviendas.model.dao.entities.ArrSitioPeriodoPK;
 import viviendas.model.generic.Funciones;
+import viviendas.model.generic.Mensaje;
 
 /**
  * Contiene la lógica de negocio para realizar el proceso de reserva de sitios
@@ -295,8 +296,7 @@ public class ManagerCarga {
 		try {
 			mngDao.eliminar(ArrSitioPeriodo.class, sit.getId());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Mensaje.crearMensajeERROR("El sitio no puede ser eliminado porque cuenta con una reserva asignada");
 		}
 	}
 	

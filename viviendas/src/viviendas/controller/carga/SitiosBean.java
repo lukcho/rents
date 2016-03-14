@@ -405,8 +405,9 @@ public class SitiosBean {
 	 * @param sitio
 	 */
 	public void eliminar(ArrSitioPeriodo sitio) {
-		manager.eliminarSitio(sitio);
-		this.getListSitiosPer();
+			manager.eliminarSitio(sitio);
+			this.getListSitiosPer();
+		
 	}
 
 	/**

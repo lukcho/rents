@@ -37,7 +37,7 @@
 					<h:outputLabel value="Area:*" />
 				</b:column>
 				<b:column span="4">
-					<h:selectOneMenu  styleClass="form-control"
+					<h:selectOneMenu styleClass="form-control"
 						disabled="#{sitiosBean.bcampos}" value="#{sitiosBean.areId}">
 						<p:ajax listener="#{sitiosBean.cargarSitios()}" update="frm"></p:ajax>
 						<f:selectItem itemLabel="--Seleccione--" itemValue="-1"></f:selectItem>
@@ -48,7 +48,7 @@
 					<h:outputLabel value="Genero:*" />
 				</b:column>
 				<b:column span="4">
-					<b:selectOneMenu  disabled="#{sitiosBean.bcampos}"
+					<b:selectOneMenu disabled="#{sitiosBean.bcampos}"
 						value="#{sitiosBean.sitGenero}">
 						<f:selectItem itemLabel="--Seleccione--" itemValue="-1"></f:selectItem>
 						<f:selectItems value="#{sitiosBean.listGenero}" />
@@ -66,29 +66,41 @@
 							<f:selectItems value="#{sitiosBean.listSitios}" />
 						</p:selectManyMenu>
 					</b:column>
-					</b:row>
-					<br/>
-					<b:row>
+				</b:row>
+				<br />
+				<b:row>
 					<b:column>
-						<b:commandButton value="Insertar" action="#{sitiosBean.insertarSitios}"
-							update="frm" look="info"></b:commandButton>
+						<b:commandButton value="Insertar"
+							action="#{sitiosBean.insertarSitios}" update="frm" look="info"></b:commandButton>
 					</b:column>
-					</b:row>
+				</b:row>
 			</center>
 			<br />
 			<p:messages closable="true"></p:messages>
 			<b:panel title="Listado" look="primary" collapsible="false">
-				<p:dataTable id="tbb" value="#{sitiosBean.lsitper}"
-					reflow="true" var="sit" rows="8" emptyMessage="Sin Datos"
-					paginator="true"
+				<p:dataTable id="tbb" value="#{sitiosBean.lsitper}" reflow="true"
+					var="sit" rows="8" emptyMessage="Sin Datos" paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 					<p:column headerText="OPCIONES" width="100">
 						<p:commandButton icon="ui-icon-pencil"
 							action="#{sitiosBean.cargarSitio(sit)}" />
-							<p:commandButton  icon="ui-icon-trash"
-							action="#{sitiosBean.eliminar(sit)}" update="frm" />
+						<p:commandButton icon="ui-icon-trash"
+							action="#{sitiosBean.eliminar(sit)}" update="frm">
+							<p:confirm header="Confirmación"
+								message="Seguro quieres Eliminar el Sitio?" icon="ui-icon-alert" />
+						</p:commandButton>
 							&nbsp;&nbsp;&nbsp;
-						</p:column>
+							
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Si" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+					</p:column>
+
+
+
 					<p:column filterBy="#{sit.sitNombre}" filterMatchMode="contains"
 						headerText="SITIO" width="200">
 						<h:outputText value="#{sit.sitNombre}"></h:outputText>
@@ -97,7 +109,9 @@
 						<h:outputText value="#{sit.sitCapacidad}"></h:outputText>
 					</p:column>
 					<p:column headerText="VALOR ARRIENDO" width="110">
-						<h:outputText value="#{sit.sitValorArriendo}" />
+						<h:outputText value="#{sit.sitValorArriendo}" >
+						 <f:convertNumber type="currency" currencySymbol="$" />
+						</h:outputText>
 					</p:column>
 					<p:column headerText="PERIODO" width="200">
 						<h:outputText value="#{sit.id.prdId}" />
