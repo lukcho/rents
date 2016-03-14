@@ -117,10 +117,10 @@
 							</b:row>
 						</b:column>
 						<b:column span="6">
-							<h:dataTable styleClass="table table-striped">
+							<h:dataTable styleClass="table table-striped" value="#{reservaBean.reservasSitio}" var="est">
 								<h:column>
 								    <f:facet name="header">Estudiantes Asignados</f:facet>
-								    <h:outputText value="Juan" />
+								    <h:outputText value="#{est.matNombre}" />
 								</h:column>
 							</h:dataTable>
 						</b:column>
