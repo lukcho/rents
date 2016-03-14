@@ -56,9 +56,9 @@ public class MatriculadosBean {
 
 	private int NUMERO_COLUMNAS_EXCEL = 8;
 	private int NUMERO_COLUMNAS_EXCEL2 = 2;
-	
+
 	List<ArrReserva> reservas;
-	
+
 	// listas de registros
 	List<ArrMatriculado> matriculados;
 	List<ArrNegado> negados;
@@ -68,7 +68,7 @@ public class MatriculadosBean {
 
 	private StreamedContent file;
 	private StreamedContent file2;
-	private StreamedContent contratoPdf;
+	private StreamedContent file3;
 
 	public MatriculadosBean() {
 		manager = new ManagerCarga();
@@ -89,22 +89,23 @@ public class MatriculadosBean {
 				"archivo_Ejemplo_Matriculados.xls");
 		file2 = new DefaultStreamedContent(stream2, "texto/xls",
 				"archivo_Ejemplo_Negados.xls");
-		contratoPdf = new DefaultStreamedContent(stream3, "applicatio/pdf",
-				"contrato.xls");
+		file3 = new DefaultStreamedContent(stream3, "application/pdf",
+				"contrato.pdf");
 	}
 
 	/**
-	 * @return the contratoPdf
+	 * @return the file3
 	 */
-	public StreamedContent getContratoPdf() {
-		return contratoPdf;
+	public StreamedContent getFile3() {
+		return file3;
 	}
 
 	/**
-	 * @param contratoPdf the contratoPdf to set
+	 * @param file3
+	 *            the file3 to set
 	 */
-	public void setContratoPdf(StreamedContent contratoPdf) {
-		this.contratoPdf = contratoPdf;
+	public void setFile3(StreamedContent file3) {
+		this.file3 = file3;
 	}
 
 	/**
@@ -374,7 +375,7 @@ public class MatriculadosBean {
 			lista.add(new SelectItem(per.getPrdId(), per.getPrdId()));
 		return lista;
 	}
-	
+
 	/**
 	 * Lista de periodos
 	 * 
@@ -388,7 +389,7 @@ public class MatriculadosBean {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-			return reservas;
+		return reservas;
 	}
 
 	/**
@@ -585,36 +586,36 @@ public class MatriculadosBean {
 	public void verPeriodo() {
 		System.out.println(prdId);
 	}
-	
+
 	/**
 	 * metodo para eliminar una reserva
 	 * 
 	 * @param res
 	 */
 	public void eliminarR(ArrReserva res) {
-		if (!res.getResEstado().equals("F")){
+		if (!res.getResEstado().equals("F")) {
 			manager.eliminarReserva(res);
-		}else{
+		} else {
 			Mensaje.crearMensajeWARN("El estado Finalizado del Contrato impide su eliminación");
 		}
-		
+
 	}
-	
+
 	/**
 	 * Metodo para activar el boton de finalización
 	 * 
 	 * @param est
 	 * @return
 	 */
-	public boolean estado(String est){
-		if (est.equals("F")){
+	public boolean estado(String est) {
+		if (est.equals("F")) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
-	
-	public String finalizar(ArrReserva res){
+
+	public String finalizar(ArrReserva res) {
 		try {
 			manager.cambiarEstado(res);
 		} catch (Exception e) {

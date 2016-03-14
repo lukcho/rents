@@ -58,8 +58,9 @@
 						<h:outputText value="#{sitiosBean.SitioNomByID(res)}"></h:outputText>
 					</p:column>
 					<p:column headerText="CONTRATO" width="90">
-						<b:commandButton value="Descargar"
-							action="#{matriculadosBean.contratoPdf}" look="info"></b:commandButton>
+						<p:commandButton value="Descargar" ajax="false">
+									<p:fileDownload value="#{matriculadosBean.file3}" />
+								</p:commandButton>
 					</p:column>
 					<p:column headerText="ESTADO" width="60">
 						<h:outputText value="#{res.resEstado}"></h:outputText>
