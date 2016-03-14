@@ -164,6 +164,19 @@ public class Funciones {
 	}
 	
 	/**
+	 * Transforma una fecha a letters
+	 * @param fecha
+	 * @return String
+	 */
+	public static String dateToLetters(Date fecha){
+		DateFormat formato = new SimpleDateFormat("dd-MMMM-yyyy");
+		if(fecha==null)
+			return "";
+		else
+			return formato.format(fecha).toString().replace("-", " de ");
+	}
+	
+	/**
 	 * Transforma un string de fecha en Date
 	 * @param fecha
 	 * @return Date

@@ -1,5 +1,7 @@
 package viviendas.controller.reserve;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,14 +9,21 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.servlet.ServletContext;
 
 import org.primefaces.context.RequestContext;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+
+import com.itextpdf.text.DocumentException;
 
 import viviendas.model.dao.entities.ArrMatriculado;
 import viviendas.model.dao.entities.ArrPeriodo;
 import viviendas.model.dao.entities.ArrReserva;
 import viviendas.model.dao.entities.ArrSitioPeriodo;
+import viviendas.model.generic.Contrato;
 import viviendas.model.generic.Funciones;
 import viviendas.model.generic.Mensaje;
 import viviendas.model.manager.ManagerReserva;
@@ -47,16 +56,21 @@ public class ReservaBean implements Serializable{
 	private boolean mayorEdad;
 	private boolean finalizado;
 	
+	private StreamedContent archivo;
+	
 	public ReservaBean() {
 		mngRes = new ManagerReserva();
 		periodo = mngRes.buscarPeriodoActivo();
 		hashSitios = new HashMap<Integer, ArrSitioPeriodo>();
 		sitiosLibres = new ArrayList<SelectItem>();
 		reservasSitio = new ArrayList<ArrMatriculado>();
-		tokenOk = false;
+		tokenOk = true;
 		mayorEdad = true;
 		finalizado = false;
 		sitioId = 0;
+		archivo = new DefaultStreamedContent(((ServletContext)FacesContext.getCurrentInstance()
+				.getExternalContext().getContext()).getResourceAsStream(File.separatorChar+"contratos"+File.separatorChar+"error.pdf"), 
+				"texto/pdf", "error.pdf");
 	}
 
 	/**
@@ -204,6 +218,20 @@ public class ReservaBean implements Serializable{
 	 */
 	public boolean isFinalizado() {
 		return finalizado;
+	}
+
+	/**
+	 * @return the archivo
+	 */
+	public StreamedContent getArchivo() {
+		return archivo;
+	}
+
+	/**
+	 * @param archivo the archivo to set
+	 */
+	public void setArchivo(StreamedContent archivo) {
+		this.archivo = archivo;
 	}
 
 	/**
@@ -374,6 +402,32 @@ public class ReservaBean implements Serializable{
 			return "Todavía no posee un sitio reservado";
 		else
 			return reserva.getArrSitioPeriodo().getSitNombre();
+	}
+	
+	/**
+	 * Generar PDF de contrato
+	 */
+	public void generarContrato(){
+		try {
+			String nombre = Contrato.generarContrato(estudiante, periodo, sitio.getSitNombre());
+			setArchivo(new DefaultStreamedContent(((ServletContext)FacesContext.getCurrentInstance()
+					.getExternalContext().getContext()).getResourceAsStream(File.separatorChar+"contratos"+File.separatorChar+nombre), 
+					"texto/pdf", nombre));
+			//MODIFICAR NOMBRE CONTRATO
+			mngRes.agregarContratoReserva(estudiante, periodo.getPrdId());
+		} catch (FileNotFoundException e) {  
+	        setArchivo(new DefaultStreamedContent(((ServletContext)FacesContext.getCurrentInstance()
+				.getExternalContext().getContext()).getResourceAsStream(File.separatorChar+"contratos"+File.separatorChar+"error.pdf"), 
+				"texto/pdf", "error.pdf"));
+			System.out.println("FileNotFoundException: "+e.getMessage());  
+	    } catch (DocumentException e) {
+	    	 setArchivo(new DefaultStreamedContent(((ServletContext)FacesContext.getCurrentInstance()
+	 				.getExternalContext().getContext()).getResourceAsStream(File.separatorChar+"contratos"+File.separatorChar+"error.pdf"), 
+	 				"texto/pdf", "error.pdf"));
+	    	 System.out.println("DocumentException: "+e.getMessage());
+		} catch (Exception e) {
+			System.out.println("Error: "+e.getMessage());
+		}
 	}
 	
 }

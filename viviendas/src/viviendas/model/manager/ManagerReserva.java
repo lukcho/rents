@@ -169,7 +169,6 @@ public class ManagerReserva {
 		reserva.setResFechaHoraCreacion(new Timestamp(new Date().getTime()));
 		reserva.setArrSitioPeriodo(sitioLibre);
 		reserva.setResEstado(Funciones.estadoActivo);
-		//reserva.setResContrato(generarContrato(estudiante,representante));
 		mngDao.insertar(reserva);
 		//REDUCIR CAPACIDAD
 		reducirCapacidadSitio(sitioLibre);
@@ -191,7 +190,6 @@ public class ManagerReserva {
 		reserva.setResFechaCreacion(new Date());
 		reserva.setResFechaHoraCreacion(new Timestamp(new Date().getTime()));
 		reserva.setArrSitioPeriodo(sitioLibre);
-		//reserva.setResContrato(generarContrato(estudiante,representante));
 		mngDao.actualizar(reserva);
 		//AUMENTAR CAPACIDAD ANTERIOR
 		aumentarCapacidadSitio(sitioAnterior);
@@ -200,18 +198,7 @@ public class ManagerReserva {
 		//INGRESAR REPRESENTANTE
 		ingresarRepresentante(estudiante, representante);
 	}
-	
-	/**
-	 * Genera el texto de contrato para esa reserva
-	 * @param estudiante
-	 * @param representante
-	 * @return String
-	 */
-	public String generarContrato(ArrMatriculado estudiante, String representante){
-		StringBuilder contrato = new StringBuilder();
-		return contrato.toString();
-	}
-	
+		
 	/**
 	 * Reducir capacidad de sitio
 	 * @param sitioLibre
@@ -253,7 +240,7 @@ public class ManagerReserva {
 	 * @return ArrReserva
 	 * @throws Exception
 	 */
-	public ArrReserva buscarReservaPorID(String perDNI, String prdID) throws Exception{
+	public ArrReserva buscarReservaPorID(String perDNI, String prdID) throws Exception {
 		String pk = perDNI+prdID;
 		return (ArrReserva) mngDao.findById(ArrReserva.class, pk);
 	}
@@ -273,5 +260,17 @@ public class ManagerReserva {
 						+ " WHERE r.arrSitioPeriodo.id.artId="+artID
 						+ " AND r.arrSitioPeriodo.id.prdId='"+prdID+"')", 
 				null);
+	}
+	
+	/**
+	 * Permite ingresar el nombre del contrato generado
+	 * @param estudiante
+	 * @param prdID
+	 * @throws Exception
+	 */
+	public void agregarContratoReserva(ArrMatriculado estudiante, String prdID) throws Exception{
+		ArrReserva reserva = buscarReservaPorID(estudiante.getId().getPerDni(), prdID);
+		reserva.setResContrato(prdID+"_"+estudiante.getId().getPerDni()+".pdf");
+		mngDao.actualizar(reserva);
 	}
 }
