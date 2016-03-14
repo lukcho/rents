@@ -148,12 +148,13 @@
 						</b:column>
 					</b:row>
 					<b:row rendered="#{reservaBean.tokenOk}">
-						<b:column col-lg="2" col-md="2" col-sm="3" col-xs="4" styleClass="col-lg-offset-4 col-md-offset-4 col-sm-offset-3 col-xs-offset-2">
+						<b:column col-lg="2" col-md="2" col-sm="3" col-xs="4" styleClass="col-lg-offset-4 col-md-offset-4 col-sm-offset-3 col-xs-offset-1">
 							<b:commandButton value="Reservar" actionListener="#{reservaBean.reservarSitio()}" update="frmRes" look="primary" size="lg"/>
 						</b:column>
 						<b:column col-lg="2" col-md="2" col-sm="3" col-xs="3">
-							<b:commandButton value="Contrato" disabled="#{!reservaBean.finalizado}"
-								look="warning" size="lg" iconAlign="right" iconAwesome="download"/>
+							<h:commandButton value="Contrato" styleClass="btn btn-warning btn-lg" disabled="#{!reservaBean.finalizado}">
+								<p:fileDownload value="#{reservaBean.archivo}" />
+							</h:commandButton>
 						</b:column>
 					</b:row>
 				</h:form>

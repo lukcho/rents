@@ -64,7 +64,7 @@ public class ReservaBean implements Serializable{
 		hashSitios = new HashMap<Integer, ArrSitioPeriodo>();
 		sitiosLibres = new ArrayList<SelectItem>();
 		reservasSitio = new ArrayList<ArrMatriculado>();
-		tokenOk = true;
+		tokenOk = false;
 		mayorEdad = true;
 		finalizado = false;
 		sitioId = 0;
