@@ -11,6 +11,7 @@ import javax.faces.model.SelectItem;
 import viviendas.model.conn.entities.GEN_Areas;
 import viviendas.model.conn.entities.GEN_Sitios;
 import viviendas.model.dao.entities.ArrPeriodo;
+import viviendas.model.dao.entities.ArrReserva;
 import viviendas.model.dao.entities.ArrSitioPeriodo;
 import viviendas.model.generic.Funciones;
 import viviendas.model.generic.Mensaje;
@@ -422,5 +423,16 @@ public class SitiosBean {
 		sitNombre = "";
 		sitValorArriendo = null;
 		return "sitios?faces-redirect=true";
+	}
+	
+	public String SitioNomByID(ArrReserva sitio){
+		ArrSitioPeriodo sp= new ArrSitioPeriodo();
+		try {
+				sp = manager.SitiosById(sitio.getArrSitioPeriodo().getId().getPrdId(), sitio.getArrSitioPeriodo().getId().getArtId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return sp.getSitNombre();
 	}
 }

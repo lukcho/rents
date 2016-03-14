@@ -15,6 +15,7 @@ import viviendas.model.dao.entities.ArrMatriculadoPK;
 import viviendas.model.dao.entities.ArrNegado;
 import viviendas.model.dao.entities.ArrNegadoPK;
 import viviendas.model.dao.entities.ArrPeriodo;
+import viviendas.model.dao.entities.ArrReserva;
 import viviendas.model.dao.entities.ArrSitioPeriodo;
 import viviendas.model.dao.entities.ArrSitioPeriodoPK;
 import viviendas.model.generic.Funciones;
@@ -73,6 +74,17 @@ public class ManagerCarga {
 	 */
 	public ArrPeriodo PeriodoById(String per_id) throws Exception {
 		return (ArrPeriodo) mngDao.findById(ArrPeriodo.class, per_id);
+	}
+	
+	/**
+	 * Metodo para obtener un atributo por id
+	 * 
+	 * @param per_id
+	 * @return
+	 * @throws Exception
+	 */
+	public ArrReserva ReservaById(String res_id) throws Exception {
+		return (ArrReserva) mngDao.findById(ArrReserva.class, res_id);
 	}
 
 	/**
@@ -287,6 +299,25 @@ public class ManagerCarga {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Metod para eliminar un ArrSitioPeriodo
+	 * 
+	 * @param sit
+	 */
+	public void eliminarReserva(ArrReserva res) {
+		try {
+				//proceso para añadir 1 a SitioPeriodo
+				ArrSitioPeriodo r = new ArrSitioPeriodo();
+				r=SitiosById(res.getArrSitioPeriodo().getId().getPrdId(), res.getArrSitioPeriodo().getId().getArtId());
+				r.setSitCapacidad(res.getArrSitioPeriodo().getSitCapacidad()+1);
+				mngDao.actualizar(r);
+				mngDao.eliminar(ArrReserva.class, res.getResId());
+			} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Metodo para editar datos de un atributo
@@ -313,6 +344,25 @@ public class ManagerCarga {
 		}
 	}// Cierre del metodo
 
+	/**
+	 * Metodo para obtener un atributo por id
+	 * 
+	 * @param per_id
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ArrReserva> ReservaByPeriodo(String per_id)
+			throws Exception {
+		List<ArrReserva> ls = mngDao.findWhere(ArrReserva.class,
+				"o.arrSitioPeriodo.id.prdId='" + per_id + "'", null);
+		if (ls.isEmpty()) {
+			return null;
+		} else {
+			return ls;
+		}
+	}
+	
 	/**
 	 * Valida la estructura de encabezados de excel
 	 * 
@@ -576,6 +626,17 @@ public class ManagerCarga {
 		else
 			return false;
 	}
+	
+	/**
+	 * Actualiza los datos de una persona
+	 * @param person
+	 * @throws Exception
+	 */
+	public void cambiarEstado(ArrReserva reserva) throws Exception{
+		ArrReserva sReserva = (ArrReserva) mngDao.findById(ArrReserva.class, reserva.getResId());
+		sReserva.setResEstado("F");
+		mngDao.actualizar(sReserva);
+	}
 
 	// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -777,4 +838,6 @@ public class ManagerCarga {
 			throw new Exception("La consulta obtuvo varios resultados.");
 		return sit;
 	}
+	
+
 }

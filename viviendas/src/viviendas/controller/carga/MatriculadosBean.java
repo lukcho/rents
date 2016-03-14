@@ -24,6 +24,7 @@ import org.primefaces.model.UploadedFile;
 import viviendas.model.dao.entities.ArrMatriculado;
 import viviendas.model.dao.entities.ArrNegado;
 import viviendas.model.dao.entities.ArrPeriodo;
+import viviendas.model.dao.entities.ArrReserva;
 import viviendas.model.generic.Mensaje;
 import viviendas.model.manager.ManagerCarga;
 
@@ -52,10 +53,12 @@ public class MatriculadosBean {
 	private String matNivel;
 	private String matRepresDni;
 	private String matRepresNombre;
-	private String matToken;
 
 	private int NUMERO_COLUMNAS_EXCEL = 8;
 	private int NUMERO_COLUMNAS_EXCEL2 = 2;
+	
+	List<ArrReserva> reservas;
+	
 	// listas de registros
 	List<ArrMatriculado> matriculados;
 	List<ArrNegado> negados;
@@ -65,22 +68,43 @@ public class MatriculadosBean {
 
 	private StreamedContent file;
 	private StreamedContent file2;
+	private StreamedContent contratoPdf;
 
 	public MatriculadosBean() {
 		manager = new ManagerCarga();
 		matriculados = new ArrayList<ArrMatriculado>();
 		errores = new ArrayList<String>();
 		negados = new ArrayList<ArrNegado>();
+		reservas = new ArrayList<ArrReserva>();
 		InputStream stream = ((ServletContext) FacesContext
 				.getCurrentInstance().getExternalContext().getContext())
 				.getResourceAsStream("/resources/excel/excelbase.xls");
 		InputStream stream2 = ((ServletContext) FacesContext
 				.getCurrentInstance().getExternalContext().getContext())
 				.getResourceAsStream("/resources/excel/excelbase2.xls");
+		InputStream stream3 = ((ServletContext) FacesContext
+				.getCurrentInstance().getExternalContext().getContext())
+				.getResourceAsStream("/resources/excel/contrato.pdf");
 		file = new DefaultStreamedContent(stream, "texto/xls",
 				"archivo_Ejemplo_Matriculados.xls");
 		file2 = new DefaultStreamedContent(stream2, "texto/xls",
 				"archivo_Ejemplo_Negados.xls");
+		contratoPdf = new DefaultStreamedContent(stream3, "applicatio/pdf",
+				"contrato.xls");
+	}
+
+	/**
+	 * @return the contratoPdf
+	 */
+	public StreamedContent getContratoPdf() {
+		return contratoPdf;
+	}
+
+	/**
+	 * @param contratoPdf the contratoPdf to set
+	 */
+	public void setContratoPdf(StreamedContent contratoPdf) {
+		this.contratoPdf = contratoPdf;
 	}
 
 	/**
@@ -339,21 +363,6 @@ public class MatriculadosBean {
 	}
 
 	/**
-	 * @return the matToken
-	 */
-	public String getMatToken() {
-		return matToken;
-	}
-
-	/**
-	 * @param matToken
-	 *            the matToken to set
-	 */
-	public void setMatToken(String matToken) {
-		this.matToken = matToken;
-	}
-
-	/**
 	 * Lista de periodos
 	 * 
 	 * @return lista de items de estados
@@ -364,6 +373,22 @@ public class MatriculadosBean {
 		if (per != null)
 			lista.add(new SelectItem(per.getPrdId(), per.getPrdId()));
 		return lista;
+	}
+	
+	/**
+	 * Lista de periodos
+	 * 
+	 * @return lista de items de estados
+	 */
+	public List<ArrReserva> getlistReserva() {
+		try {
+			ArrPeriodo per = manager.PeriodoAct();
+			reservas = manager.ReservaByPeriodo(per.getPrdId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			return reservas;
 	}
 
 	/**
@@ -559,6 +584,44 @@ public class MatriculadosBean {
 
 	public void verPeriodo() {
 		System.out.println(prdId);
+	}
+	
+	/**
+	 * metodo para eliminar una reserva
+	 * 
+	 * @param res
+	 */
+	public void eliminarR(ArrReserva res) {
+		if (!res.getResEstado().equals("F")){
+			manager.eliminarReserva(res);
+		}else{
+			Mensaje.crearMensajeWARN("El estado Finalizado del Contrato impide su eliminación");
+		}
+		
+	}
+	
+	/**
+	 * Metodo para activar el boton de finalización
+	 * 
+	 * @param est
+	 * @return
+	 */
+	public boolean estado(String est){
+		if (est.equals("F")){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public String finalizar(ArrReserva res){
+		try {
+			manager.cambiarEstado(res);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
 	}
 
 }
