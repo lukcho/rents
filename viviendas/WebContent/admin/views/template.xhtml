@@ -23,28 +23,7 @@ and open the template in the editor.
     </h:head>
     <h:body>  
         <b:navBar brand="Sis_Viviendas" inverse="true" brandHref="index.xhtml">
-        	<b:navbarLinks>
-	        	<b:dropMenu value="Configuración">
-		            <b:navLink value="Institución" href="institucion.xhtml"></b:navLink>
-		            <b:navLink value="Sector" href="sector.xhtml"></b:navLink>
-		            <b:navLink value="Areas" href="area.xhtml"></b:navLink>
-		            <b:navLink value="Tipos Sitios" href="tipositio.xhtml"></b:navLink>
-		            <b:navLink value="Sitios" href="sitio.xhtml"></b:navLink>
-		            <b:navLink value="Artículos" href="articulo.xhtml"></b:navLink>
-		            <b:navLink value="Asignación" href="articuloSitios.xhtml"></b:navLink>
-		        </b:dropMenu>
-		        <b:dropMenu value="Préstamos">
-		            <b:navLink value="Plantillas de contratos*" href="contratos.xhtml"></b:navLink>
-		            <b:navLink value="Contratos de Sitios*" href="convivienda.xhtml"></b:navLink>
-		        </b:dropMenu>
-		        <b:dropMenu value="Reportes">
-		            <b:navLink value="Sitios*" href="#"></b:navLink>
-		            <b:navLink value="Contratos*" href="#"></b:navLink>
-		            <!-- b:navLink value="Préstamos*" href="#"></b:navLink>  -->
-		        </b:dropMenu>
-		        <b:navLink value="Ayuda*" href="#"></b:navLink>
-	            <ui:insert name="menu"></ui:insert>
-            </b:navbarLinks>
+        	
             <b:navbarLinks pull="right">
 				<h:form>
 			 		<b:commandButton value="Cerrar sesión" size="sm" style="margin:10px;" iconAwesome="remove" iconAlign="right" action="index?faces-redirect=true"></b:commandButton>

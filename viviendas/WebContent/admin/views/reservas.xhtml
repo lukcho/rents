@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<ui:composition template="template.xhtml">
+	<ui:define name="titulo">
+            Reservas
+        </ui:define>
+	<ui:define name="contenido">
+		<h:form id="frm">
+			<center>
+				<h1>RESERVAS</h1>
+			</center>
+			<p:messages closable="true"></p:messages>
+			<b:panel title="Listado" look="primary" collapsible="false">
+				<p:dataTable id="tbb" value="#{matriculadosBean.listReserva}"
+					reflow="true" var="res" rows="8" emptyMessage="Sin Datos"
+					paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+					<p:column headerText="OPCIONES" width="60">
+						<p:commandButton icon="ui-icon-trash"
+							action="#{matriculadosBean.eliminarR(res)}" update="frm" >
+								 <p:confirm header="Confirmación" message="Seguro quieres Eliminar la Reserva?" icon="ui-icon-alert" />
+							</p:commandButton>
+							
+							<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Si" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+							&nbsp;&nbsp;&nbsp;
+							<p:commandButton icon="ui-icon-circle-check"
+							disabled="#{matriculadosBean.estado(res.resEstado)}"
+							action="#{matriculadosBean.finalizar(res)}" update="frm" >
+							 <p:confirm header="Confirmación" message="Seguro quieres Finalizar la Reserva?" icon="ui-icon-alert" />
+							</p:commandButton>
+
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Si" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+					</p:column>
+					<p:column filterBy="#{res.perDni}" filterMatchMode="contains"
+						headerText="CÉDULA" width="100">
+						<h:outputText value="#{res.perDni}"></h:outputText>
+					</p:column>
+					<p:column headerText="USUARIO" width="170">
+						<h:outputText value="#{res.resUsuario}"></h:outputText>
+					</p:column>
+					<p:column headerText="SITIO" width="90">
+						<h:outputText value="#{sitiosBean.SitioNomByID(res)}"></h:outputText>
+					</p:column>
+					<p:column headerText="CONTRATO" width="90">
+						<b:commandButton value="Descargar"
+							action="#{matriculadosBean.contratoPdf}" look="info"></b:commandButton>
+					</p:column>
+					<p:column headerText="ESTADO" width="60">
+						<h:outputText value="#{res.resEstado}"></h:outputText>
+					</p:column>
+				</p:dataTable>
+			</b:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>
