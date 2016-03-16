@@ -23,7 +23,7 @@
 					</b:column>
 					<b:column span="6">
 						<h:selectOneMenu styleClass="form-control"
-							disabled="#{!sitiosBean.bcampos}" value="#{sitiosBean.prdId}">
+							value="#{sitiosBean.prdId}">
 							<p:ajax listener="#{sitiosBean.validarYCarga()}" update="frm"></p:ajax>
 							<f:selectItem itemLabel="--Seleccione--" itemValue="-1"></f:selectItem>
 							<f:selectItems value="#{sitiosBean.listPeriodo}" />
@@ -38,7 +38,7 @@
 				</b:column>
 				<b:column span="4">
 					<h:selectOneMenu styleClass="form-control"
-						disabled="#{sitiosBean.bcampos}" value="#{sitiosBean.areId}">
+						value="#{sitiosBean.areId}">
 						<p:ajax listener="#{sitiosBean.cargarSitios()}" update="frm"></p:ajax>
 						<f:selectItem itemLabel="--Seleccione--" itemValue="-1"></f:selectItem>
 						<f:selectItems value="#{sitiosBean.listAreas}" />
@@ -48,8 +48,7 @@
 					<h:outputLabel value="Genero:*" />
 				</b:column>
 				<b:column span="4">
-					<b:selectOneMenu disabled="#{sitiosBean.bcampos}"
-						value="#{sitiosBean.sitGenero}">
+					<b:selectOneMenu value="#{sitiosBean.sitGenero}">
 						<f:selectItem itemLabel="--Seleccione--" itemValue="-1"></f:selectItem>
 						<f:selectItems value="#{sitiosBean.listGenero}" />
 					</b:selectOneMenu>
@@ -109,8 +108,8 @@
 						<h:outputText value="#{sit.sitCapacidad}"></h:outputText>
 					</p:column>
 					<p:column headerText="VALOR ARRIENDO" width="110">
-						<h:outputText value="#{sit.sitValorArriendo}" >
-						 <f:convertNumber type="currency" currencySymbol="$" />
+						<h:outputText value="#{sit.sitValorArriendo}">
+							<f:convertNumber type="currency" currencySymbol="$" />
 						</h:outputText>
 					</p:column>
 					<p:column headerText="PERIODO" width="200">

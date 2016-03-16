@@ -39,16 +39,12 @@ public class SitiosBean {
 	private String sitNombre;
 	private BigDecimal sitValorArriendo;
 
-	// atributos de bloque
-	private boolean bcampos;
-
 	// listas de sitios y sitios_periodos
 	private List<String> lsitios;
 	private List<ArrSitioPeriodo> lsitper;
 
 	public SitiosBean() {
 		manager = new ManagerCarga();
-		bcampos = true;
 		lsitios = new ArrayList<String>();
 		lsitper = new ArrayList<ArrSitioPeriodo>();
 	}
@@ -171,21 +167,6 @@ public class SitiosBean {
 	 */
 	public void setPrdId(String prdId) {
 		this.prdId = prdId;
-	}
-
-	/**
-	 * @return the bcampos
-	 */
-	public boolean isBcampos() {
-		return bcampos;
-	}
-
-	/**
-	 * @param bcampos
-	 *            the bcampos to set
-	 */
-	public void setBcampos(boolean bcampos) {
-		this.bcampos = bcampos;
 	}
 
 	/**
@@ -320,20 +301,6 @@ public class SitiosBean {
 	}
 
 	/**
-	 * Metodo para activar las selecciones y mostrar las listas en base a un
-	 * periodo
-	 */
-	public void validarYCarga() {
-		if (prdId == null || prdId.equals("-1")) {
-			bcampos = true;
-		} else {
-			bcampos = false;
-		}
-		this.getlistSitios();
-		this.getListSitiosPer();
-	}
-
-	/**
 	 * Metodo para cargar los sitios
 	 */
 	public void cargarSitios() {
@@ -361,7 +328,7 @@ public class SitiosBean {
 		try {
 			manager.editarSitio(artId, prdId, sitCapacidad, sitValorArriendo,
 					sitGenero);
-			//limpiar datos
+			// limpiar datos
 			artId = null;
 			sitCapacidad = null;
 			sitGenero = null;
@@ -381,10 +348,17 @@ public class SitiosBean {
 	public void insertarSitios() {
 		try {
 			for (String sit : lsitios) {
+				if (prdId == null || prdId.equals("-1")) {
+					Mensaje.crearMensajeWARN("Debe seleccionar el Periodo antes de Insertar");
+					break;
+				} 
+				
 				if (sitGenero == null || sitGenero.equals("-1")) {
 					Mensaje.crearMensajeWARN("Debe seleccionar el Genero antes de Insertar");
 					break;
-				} else {
+				} 
+				
+				else {
 					GEN_Sitios s = manager.findSitioById(sit);
 					manager.insertarSitio(s.sit_id, prdId, s.sit_nombre,
 							s.sit_capacidad, s.sit_capacidad, new BigDecimal(
@@ -393,6 +367,7 @@ public class SitiosBean {
 			}
 			this.getlistSitios();
 			this.getListSitiosPer();
+			Mensaje.crearMensajeINFO("Sitios insertados Correctamente");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -405,9 +380,9 @@ public class SitiosBean {
 	 * @param sitio
 	 */
 	public void eliminar(ArrSitioPeriodo sitio) {
-			manager.eliminarSitio(sitio);
-			this.getListSitiosPer();
-		
+		manager.eliminarSitio(sitio);
+		this.getListSitiosPer();
+
 	}
 
 	/**
@@ -425,15 +400,27 @@ public class SitiosBean {
 		sitValorArriendo = null;
 		return "sitios?faces-redirect=true";
 	}
-	
-	public String SitioNomByID(ArrReserva sitio){
-		ArrSitioPeriodo sp= new ArrSitioPeriodo();
+
+	/**
+	 * Metodo para activar las selecciones y mostrar las listas en base a un
+	 * periodo
+	 */
+	public void validarYCarga() {
+		System.out.println(prdId);
+		this.getlistSitios();
+		this.getListSitiosPer();
+	}
+
+	public String SitioNomByID(ArrReserva sitio) {
+		ArrSitioPeriodo sp = new ArrSitioPeriodo();
 		try {
-				sp = manager.SitiosById(sitio.getArrSitioPeriodo().getId().getPrdId(), sitio.getArrSitioPeriodo().getId().getArtId());
+			sp = manager.SitiosById(sitio.getArrSitioPeriodo().getId()
+					.getPrdId(), sitio.getArrSitioPeriodo().getId().getArtId());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return sp.getSitNombre();
 	}
+
 }
