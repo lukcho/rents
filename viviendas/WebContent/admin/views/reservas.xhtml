@@ -23,11 +23,13 @@
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 					<p:column headerText="OPCIONES" width="60">
 						<p:commandButton icon="ui-icon-trash"
-							action="#{matriculadosBean.eliminarR(res)}" update="frm" >
-								 <p:confirm header="Confirmación" message="Seguro quieres Eliminar la Reserva?" icon="ui-icon-alert" />
-							</p:commandButton>
-							
-							<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							action="#{matriculadosBean.eliminarR(res)}" update="frm">
+							<p:confirm header="Confirmación"
+								message="Seguro quieres Eliminar la Reserva?"
+								icon="ui-icon-alert" />
+						</p:commandButton>
+
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 							<p:commandButton value="Si" type="button"
 								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 							<p:commandButton value="No" type="button"
@@ -36,9 +38,11 @@
 							&nbsp;&nbsp;&nbsp;
 							<p:commandButton icon="ui-icon-circle-check"
 							disabled="#{matriculadosBean.estado(res.resEstado)}"
-							action="#{matriculadosBean.finalizar(res)}" update="frm" >
-							 <p:confirm header="Confirmación" message="Seguro quieres Finalizar la Reserva?" icon="ui-icon-alert" />
-							</p:commandButton>
+							action="#{matriculadosBean.finalizar(res)}" update="frm">
+							<p:confirm header="Confirmación"
+								message="Seguro quieres Finalizar la Reserva?"
+								icon="ui-icon-alert" />
+						</p:commandButton>
 
 						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 							<p:commandButton value="Si" type="button"
@@ -59,8 +63,8 @@
 					</p:column>
 					<p:column headerText="CONTRATO" width="90">
 						<p:commandButton value="Descargar" ajax="false">
-									<p:fileDownload value="#{matriculadosBean.file3}" />
-								</p:commandButton>
+							<p:fileDownload value="#{matriculadosBean.file3}" />
+						</p:commandButton>
 					</p:column>
 					<p:column headerText="ESTADO" width="60">
 						<h:outputText value="#{res.resEstado}"></h:outputText>

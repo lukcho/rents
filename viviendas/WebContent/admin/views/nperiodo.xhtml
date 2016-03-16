@@ -21,7 +21,9 @@
 					</b:column>
 					<b:column span="10">
 						<b:inputText value="#{periodoBean.prdId}" required="true"
-							requiredMessage="Campo nombre requerido"></b:inputText>
+							requiredMessage="Campo nombre requerido" validatorMessage="El Nombre del Periodo no Debe Contener Espacios ni Vocales con tilde.">
+							<f:validateRegex pattern="^[A-Z-a-z-0-9-_]+$"  />
+							</b:inputText>
 					</b:column>
 				</b:row>
 				<b:row>
