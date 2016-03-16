@@ -22,7 +22,7 @@
 				<b:column span="4">
 					<h:selectOneMenu styleClass="form-control"
 						value="#{matriculadosBean.prdId}">
-						<p:ajax listener="#{matriculadosBean.verPeriodo}"></p:ajax>
+						<p:ajax listener="#{matriculadosBean.verPeriodo}" update="frm"></p:ajax>
 						<f:selectItem itemLabel="--Seleccione--" itemValue="-1"></f:selectItem>
 						<f:selectItems value="#{matriculadosBean.listPeriodo}" />
 					</h:selectOneMenu>
@@ -141,13 +141,9 @@
 					</b:panel>
 				</p:tab>
 			</p:tabView>
-
-
-		</h:form>
-		<p:dialog header="Errores de contenido" widgetVar="dlgerr" width="500"
+			
+			<p:dialog header="Errores de contenido" widgetVar="dlgerr" width="500"
 			modal="true" resizable="false" closable="true" position="top">
-			<h:form id="frmlist">
-				<p:messages closable="true"></p:messages>
 				<p:column headerText="Error">
 					<h:outputText value="#{matriculadosBean.e}" />
 				</p:column>
@@ -159,8 +155,11 @@
 						</h:commandButton>
 					</b:column>
 				</b:row>
-			</h:form>
 		</p:dialog>
+
+
+		</h:form>
+		
 	</ui:define>
 </ui:composition>
 

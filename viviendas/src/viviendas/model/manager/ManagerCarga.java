@@ -45,9 +45,9 @@ public class ManagerCarga {
 	private int LN_CEDULA = 0;
 	private int LN_RAZON = 1;
 
-	private String[] encabezados = { "cédula", "nombre_completo",
-			"fecha_nacimiento", "nivel", "carrera", "correo_institucional",
-			"correo_general", "genero"};
+	private String[] encabezados = { "CÉDULA", "NOMBRE_COMPLETO",
+			"FECHA_NACIMIENTO", "NIVEL", "CARRERA", "CORREO_INSTITUCIONAL",
+			"CORREO_GENERAL", "GENERO"};
 	
 	private String[] encabezados2 = { "cédula", "razon"};
 
@@ -370,22 +370,14 @@ public class ManagerCarga {
 	 * @return
 	 */
 	public boolean validarEncabezadosExcel(Cell[] row) {
-		if (!row[POSICION_CEDULA].getContents().toLowerCase()
-				.equals(encabezados[POSICION_CEDULA])
-				&& !row[POSICION_NOMBRE].getContents().toLowerCase()
-						.equals(encabezados[POSICION_NOMBRE])
-				&& !row[POSICION_FECHA].getContents().toLowerCase()
-						.equals(encabezados[POSICION_FECHA])
-				&& !row[POSICION_NIVEL].getContents().toLowerCase()
-						.equals(encabezados[POSICION_NIVEL])
-				&& !row[POSICION_CARRERA].getContents().toLowerCase()
-						.equals(encabezados[POSICION_CARRERA])
-				&& !row[POSICION_CORREO_INS].getContents().toLowerCase()
-						.equals(encabezados[POSICION_CORREO_INS])
-				&& !row[POSICION_CORREO].getContents().toLowerCase()
-						.equals(encabezados[POSICION_CORREO])
-				&& !row[POSICION_GENERO].getContents().toLowerCase()
-						.equals(encabezados[POSICION_GENERO]))
+		if (!row[POSICION_CEDULA].getContents().trim().equals(encabezados[POSICION_CEDULA].trim())
+				&& !row[POSICION_NOMBRE].getContents().equals(encabezados[POSICION_NOMBRE])
+				&& !row[POSICION_FECHA].getContents().equals(encabezados[POSICION_FECHA])
+				&& !row[POSICION_NIVEL].getContents().equals(encabezados[POSICION_NIVEL])
+				&& !row[POSICION_CARRERA].getContents().equals(encabezados[POSICION_CARRERA])
+				&& !row[POSICION_CORREO_INS].getContents().equals(encabezados[POSICION_CORREO_INS])
+				&& !row[POSICION_CORREO].getContents().equals(encabezados[POSICION_CORREO])
+				&& !row[POSICION_GENERO].getContents().equals(encabezados[POSICION_GENERO]))
 			return false;
 		else
 			return true;
@@ -482,6 +474,43 @@ public class ManagerCarga {
 		}
 		// retornar errores
 		return errores;
+	}
+	/**
+	 * Metodo para obtener un atributo por id
+	 * 
+	 * @param per_id
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ArrNegado> NegadoByPeriodo(String per_id)
+			throws Exception {
+		List<ArrNegado> ls = mngDao.findWhere(ArrNegado.class,
+				"o.id.prdId='" + per_id + "'", null);
+		if (ls.isEmpty()) {
+			return null;
+		} else {
+			return ls;
+		}
+	}
+	
+	/**
+	 * Metodo para obtener un atributo por id
+	 * 
+	 * @param per_id
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ArrMatriculado> MatriculadoByPeriodo(String per_id)
+			throws Exception {
+		List<ArrMatriculado> ls = mngDao.findWhere(ArrMatriculado.class,
+				"o.id.prdId='" + per_id + "'", null);
+		if (ls.isEmpty()) {
+			return null;
+		} else {
+			return ls;
+		}
 	}
 	
 	/**

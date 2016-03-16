@@ -362,6 +362,24 @@ public class MatriculadosBean {
 	public void setMatRepresNombre(String matRepresNombre) {
 		this.matRepresNombre = matRepresNombre;
 	}
+	
+	private void ListNegados(){
+		try {
+			negados = manager.NegadoByPeriodo(prdId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void ListMatriculados(){
+		try {
+			matriculados = manager.MatriculadoByPeriodo(prdId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Lista de periodos
@@ -410,6 +428,8 @@ public class MatriculadosBean {
 					validarGuardarDatosExcel(event.getFile());
 				}
 			}
+			this.ListMatriculados();
+			this.ListNegados();
 		} catch (Exception e) {
 			e.printStackTrace();
 			Mensaje.crearMensajeERROR(e.getMessage());
@@ -434,6 +454,8 @@ public class MatriculadosBean {
 					validarGuardarDatosExcel2(event.getFile());
 				}
 			}
+			this.ListMatriculados();
+			this.ListNegados();
 		} catch (Exception e) {
 			e.printStackTrace();
 			Mensaje.crearMensajeERROR(e.getMessage());
@@ -585,6 +607,8 @@ public class MatriculadosBean {
 
 	public void verPeriodo() {
 		System.out.println(prdId);
+		this.ListMatriculados();
+		this.ListNegados();
 	}
 
 	/**
