@@ -2,6 +2,7 @@ package viviendas.model.manager;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -656,6 +657,7 @@ public class ManagerCarga {
 			return false;
 	}
 	
+	
 	/**
 	 * Actualiza los datos de una persona
 	 * @param person
@@ -663,6 +665,9 @@ public class ManagerCarga {
 	 */
 	public void cambiarEstado(ArrReserva reserva) throws Exception{
 		ArrReserva sReserva = (ArrReserva) mngDao.findById(ArrReserva.class, reserva.getResId());
+		Date fecha = new Date();
+		sReserva.setResFechaHoraFinalizacion(new Timestamp(fecha.getTime()));
+		sReserva.setResFechaFinalizacion(fecha);
 		sReserva.setResEstado("F");
 		mngDao.actualizar(sReserva);
 	}

@@ -55,10 +55,10 @@
 						headerText="CÉDULA" width="100">
 						<h:outputText value="#{res.perDni}"></h:outputText>
 					</p:column>
-					<p:column headerText="USUARIO" width="170">
+					<p:column filterBy="#{res.resUsuario}" headerText="USUARIO" width="170">
 						<h:outputText value="#{res.resUsuario}"></h:outputText>
 					</p:column>
-					<p:column headerText="SITIO" width="90">
+					<p:column filterBy="#{sitiosBean.SitioNomByID(res)}" headerText="SITIO" width="90">
 						<h:outputText value="#{sitiosBean.SitioNomByID(res)}"></h:outputText>
 					</p:column>
 					<p:column headerText="CONTRATO" width="90">
