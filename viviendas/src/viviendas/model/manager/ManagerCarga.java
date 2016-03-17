@@ -50,7 +50,7 @@ public class ManagerCarga {
 			"FECHA_NACIMIENTO", "NIVEL", "CARRERA", "CORREO_INSTITUCIONAL",
 			"CORREO_GENERAL", "GENERO"};
 	
-	private String[] encabezados2 = { "cédula", "razon"};
+	private String[] encabezados2 = { "CÉDULA", "RAZON"};
 
 	public ManagerCarga() {
 		mngDao = new ManagerDAO();
@@ -371,17 +371,23 @@ public class ManagerCarga {
 	 * @return
 	 */
 	public boolean validarEncabezadosExcel(Cell[] row) {
-		if (!row[POSICION_CEDULA].getContents().trim().equals(encabezados[POSICION_CEDULA].trim())
-				&& !row[POSICION_NOMBRE].getContents().equals(encabezados[POSICION_NOMBRE])
-				&& !row[POSICION_FECHA].getContents().equals(encabezados[POSICION_FECHA])
-				&& !row[POSICION_NIVEL].getContents().equals(encabezados[POSICION_NIVEL])
-				&& !row[POSICION_CARRERA].getContents().equals(encabezados[POSICION_CARRERA])
-				&& !row[POSICION_CORREO_INS].getContents().equals(encabezados[POSICION_CORREO_INS])
-				&& !row[POSICION_CORREO].getContents().equals(encabezados[POSICION_CORREO])
-				&& !row[POSICION_GENERO].getContents().equals(encabezados[POSICION_GENERO]))
+		if (row.length==8){
+			if (row[POSICION_CEDULA].getContents().equals(encabezados[POSICION_CEDULA])
+				&& row[POSICION_CARRERA].getContents().equals(encabezados[POSICION_CARRERA])
+				&& row[POSICION_CORREO].getContents().equals(encabezados[POSICION_CORREO])
+				&& row[POSICION_CORREO_INS].getContents().equals(encabezados[POSICION_CORREO_INS])
+				&& row[POSICION_FECHA].getContents().equals(encabezados[POSICION_FECHA])
+				&& row[POSICION_GENERO].getContents().equals(encabezados[POSICION_GENERO])
+				&& row[POSICION_NIVEL].getContents().equals(encabezados[POSICION_NIVEL])
+				&& row[POSICION_NOMBRE].getContents().equals(encabezados[POSICION_NOMBRE])){
+				return true;
+			} else{
+					return false;
+				}
+		} else{
 			return false;
-		else
-			return true;
+		}
+		
 	}
 	
 	/**
@@ -391,13 +397,16 @@ public class ManagerCarga {
 	 * @return
 	 */
 	public boolean validarEncabezadosExcel2(Cell[] row) {
-		if (!row[LN_CEDULA].getContents().toLowerCase()
-				.equals(encabezados2[LN_CEDULA])
-				&& !row[LN_RAZON].getContents().toLowerCase()
-						.equals(encabezados2[LN_RAZON]))
+		if (row.length==2){
+			if (row[LN_CEDULA].getContents().equals(encabezados2[LN_CEDULA])
+				&& row[LN_RAZON].getContents().equals(encabezados2[LN_RAZON])){
+				return true;
+			} else{
+					return false;
+				}
+		} else{
 			return false;
-		else
-			return true;
+		}
 	}
 
 	/**
