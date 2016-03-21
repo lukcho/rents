@@ -84,7 +84,7 @@ public class MatriculadosBean {
 				.getResourceAsStream("/resources/excel/excelbase2.xls");
 		InputStream stream3 = ((ServletContext) FacesContext
 				.getCurrentInstance().getExternalContext().getContext())
-				.getResourceAsStream("/resources/contratos/error.pdf");
+				.getResourceAsStream("/contratos/error.pdf");
 		file = new DefaultStreamedContent(stream, "texto/xls",
 				"archivo_Ejemplo_Matriculados.xls");
 		file2 = new DefaultStreamedContent(stream2, "texto/xls",
@@ -690,7 +690,7 @@ public class MatriculadosBean {
 	public void setearContrato(String dni) {
 		file3 = new DefaultStreamedContent(
 				((ServletContext) FacesContext.getCurrentInstance()
-						.getExternalContext().getContext()).getResourceAsStream("/resources/contratos/"
+						.getExternalContext().getContext()).getResourceAsStream("/contratos/"
 						+ prdId + "_" + dni + ".pdf"), "application/pdf", prdId
 						+ "_" + dni + ".pdf");
 	}
