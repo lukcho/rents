@@ -96,7 +96,7 @@
 							<b:row>
 								<b:column span="12">
 									<h:selectOneMenu id="sitios" value="#{reservaBean.sitioId}" styleClass="form-control">
-										<f:ajax event="change" listener="#{reservaBean.seleccionSitio()}" execute="sitios" render="capacidad libres" />
+										<f:ajax event="change" listener="#{reservaBean.seleccionSitio()}" execute="sitios" render="capacidad libres estList" />
 										<f:selectItems value="#{reservaBean.sitiosLibres}"/>
 									</h:selectOneMenu>
 								</b:column>
@@ -117,7 +117,7 @@
 							</b:row>
 						</b:column>
 						<b:column span="6">
-							<h:dataTable styleClass="table table-striped" value="#{reservaBean.reservasSitio}" var="est">
+							<h:dataTable id="estList" styleClass="table table-striped" value="#{reservaBean.reservasSitio}" var="est">
 								<h:column>
 								    <f:facet name="header">Estudiantes Asignados</f:facet>
 								    <h:outputText value="#{est.matNombre}" />
