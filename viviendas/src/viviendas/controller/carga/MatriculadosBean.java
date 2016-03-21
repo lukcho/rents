@@ -686,5 +686,13 @@ public class MatriculadosBean {
 		}
 		return re;
 	}
+	
+	public void setearContrato(String dni){
+		  file3 = new DefaultStreamedContent(((ServletContext) FacesContext
+		    .getCurrentInstance().getExternalContext().getContext())
+		    .getResourceAsStream("/resources/contratos/"+prdId+"_"+dni+".pdf"), 
+		    "application/pdf",
+		    prdId+"_"+dni+".pdf");
+		 }
 
 }
