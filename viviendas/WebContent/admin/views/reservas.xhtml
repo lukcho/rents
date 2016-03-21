@@ -13,8 +13,22 @@
 	<ui:define name="contenido">
 		<h:form id="frm">
 			<center>
-				<h1>RESERVAS</h1>
+				<h1> CONTROL RESERVAS</h1>
 			</center>
+			<b:row>
+					<b:column offset="2" span="2">
+						<h:outputLabel value="Periodo:*" />
+					</b:column>
+					<b:column span="6">
+						<h:selectOneMenu styleClass="form-control"
+							value="#{matriculadosBean.prdId}">
+							<p:ajax listener="#{matriculadosBean.validarYCarga()}" update="frm"></p:ajax>
+							<f:selectItem itemLabel="--Seleccione--" itemValue="-1"></f:selectItem>
+							<f:selectItems value="#{matriculadosBean.listPeriodoAll}" />
+						</h:selectOneMenu>
+					</b:column>
+				</b:row>
+				<br/>
 			<p:messages closable="true"></p:messages>
 			<b:panel title="Listado" look="primary" collapsible="false">
 				<p:dataTable id="tbb" value="#{matriculadosBean.listReserva}"
@@ -55,19 +69,22 @@
 						headerText="CÉDULA" width="100">
 						<h:outputText value="#{res.perDni}"></h:outputText>
 					</p:column>
-					<p:column filterBy="#{res.resUsuario}" headerText="USUARIO" width="170">
-						<h:outputText value="#{res.resUsuario}"></h:outputText>
+					<p:column filterBy="#{matriculadosBean.nombre(res.perDni)}" headerText="USUARIO" width="120">
+						<h:outputText value="#{matriculadosBean.nombre(res.perDni)}"></h:outputText>
+					</p:column>
+					<p:column headerText="PERIODO" width="70">
+						<h:outputText value="#{res.arrSitioPeriodo.id.prdId}"></h:outputText>
 					</p:column>
 					<p:column filterBy="#{sitiosBean.SitioNomByID(res)}" headerText="SITIO" width="90">
 						<h:outputText value="#{sitiosBean.SitioNomByID(res)}"></h:outputText>
 					</p:column>
-					<p:column headerText="CONTRATO" width="90">
+					<p:column headerText="CONTRATO" width="50">
 						<p:commandButton value="Descargar" ajax="false">
 							<p:fileDownload value="#{matriculadosBean.file3}" />
 						</p:commandButton>
 					</p:column>
 					<p:column headerText="ESTADO" width="60">
-						<h:outputText value="#{res.resEstado}"></h:outputText>
+						<h:outputText value="#{matriculadosBean.estadosX(res.resEstado)}"></h:outputText>
 					</p:column>
 				</p:dataTable>
 			</b:panel>

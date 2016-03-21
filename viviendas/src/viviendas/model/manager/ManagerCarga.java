@@ -190,6 +190,21 @@ public class ManagerCarga {
 			return lp.get(0);
 		}
 	}
+	
+	/**
+	 * Metodo para obtener solo un periodo que esta activado
+	 * 
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ArrPeriodo> findAllPeriodos() {
+		List<ArrPeriodo> lp = mngDao.findAll(ArrPeriodo.class);
+		if (lp == null || lp.size() == 0) {
+			return null;
+		} else {
+			return lp;
+		}
+	}
 
 	/**
 	 * Metodo para obtener todos los atributos
@@ -520,6 +535,25 @@ public class ManagerCarga {
 			return null;
 		} else {
 			return ls;
+		}
+	}
+	
+	/**
+	 * Metodo para obtener un atributo por id
+	 * 
+	 * @param per_id
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public ArrMatriculado MatriculadoByCI(String ci)
+			throws Exception {
+		List<ArrMatriculado> ls = mngDao.findWhere(ArrMatriculado.class,
+				"o.id.perDni='" + ci + "'", null);
+		if (ls.isEmpty()) {
+			return null;
+		} else {
+			return ls.get(0);
 		}
 	}
 	

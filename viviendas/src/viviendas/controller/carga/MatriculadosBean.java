@@ -57,12 +57,12 @@ public class MatriculadosBean {
 	private int NUMERO_COLUMNAS_EXCEL = 8;
 	private int NUMERO_COLUMNAS_EXCEL2 = 2;
 
-	List<ArrReserva> reservas;
+	private List<ArrReserva> reservas;
 
 	// listas de registros
-	List<ArrMatriculado> matriculados;
-	List<ArrNegado> negados;
-	List<String> errores;
+	private List<ArrMatriculado> matriculados;
+	private List<ArrNegado> negados;
+	private List<String> errores;
 
 	private String e;
 
@@ -401,8 +401,7 @@ public class MatriculadosBean {
 	 */
 	public List<ArrReserva> getlistReserva() {
 		try {
-			ArrPeriodo per = manager.PeriodoAct();
-			reservas = manager.ReservaByPeriodo(per.getPrdId());
+			reservas = manager.ReservaByPeriodo(prdId);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -469,8 +468,8 @@ public class MatriculadosBean {
 	 * @throws Exception
 	 */
 	public void validarGuardarDatosExcel(UploadedFile archivo) throws Exception {
-		matriculados.clear();
-		errores.clear();
+		matriculados = new ArrayList<>();
+		errores = new ArrayList<>();
 		List<String> datosFila = new ArrayList<String>();
 		// Toma la primera hoja
 		Sheet hoja = Workbook.getWorkbook(archivo.getInputstream()).getSheet(0);
@@ -617,10 +616,10 @@ public class MatriculadosBean {
 	 * @param res
 	 */
 	public void eliminarR(ArrReserva res) {
-		if (!res.getResEstado().equals("F")) {
+		if (res.getArrSitioPeriodo().getArrPeriodo().getPrdEstado().equals("A")) {
 			manager.eliminarReserva(res);
 		} else {
-			Mensaje.crearMensajeWARN("El estado Finalizado del Contrato impide su eliminación");
+			Mensaje.crearMensajeWARN("La Reserva en dicho Periodo no puede ser Eliminada por ser un periodo Inactivo");
 		}
 
 	}
@@ -647,6 +646,45 @@ public class MatriculadosBean {
 			e.printStackTrace();
 		}
 		return "";
+	}
+	
+	public String estadosX(String a ){
+		if (a.equals("A"))
+			return "Activado";
+		else
+			return "Finalizado";
+	}
+	
+	public void validarYCarga(){
+		System.out.println(prdId);
+	}
+	
+	/**
+	 * Lista de periodos
+	 * 
+	 * @return lista de items de estados
+	 */
+	public List<SelectItem> getlistPeriodoAll() {
+		List<SelectItem> lista = new ArrayList<SelectItem>();
+		List<ArrPeriodo> per = manager.findAllPeriodos();
+		if (per != null)
+			for (ArrPeriodo p : per) {
+				lista.add(new SelectItem(p.getPrdId(), p.getPrdId()));
+			}
+		return lista;
+	}
+	
+	public String nombre(String ci){
+		ArrMatriculado m;
+		String re="";
+		try {
+			m = manager.MatriculadoByCI(ci.trim());
+			re= m.getMatNombre();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return re;
 	}
 
 }
