@@ -152,7 +152,7 @@
 							<b:commandButton value="Reservar" actionListener="#{reservaBean.reservarSitio()}" update="frmRes" look="primary" size="lg"/>
 						</b:column>
 						<b:column col-lg="2" col-md="2" col-sm="3" col-xs="3">
-							<h:commandButton value="Contrato" actionListener="#{reservaBean.generarContrato()}"
+							<h:commandButton value="Contrato" actionListener="#{reservaBean.generarContrato()}" ajax="false"
 								styleClass="btn btn-warning btn-lg" disabled="#{!reservaBean.finalizado}">
 								<p:fileDownload value="#{reservaBean.archivo}" />
 							</h:commandButton>
