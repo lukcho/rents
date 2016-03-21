@@ -288,7 +288,7 @@ public class SitiosBean {
 	public boolean añadido(GEN_Sitios s) {
 		Integer v = 0;
 		for (ArrSitioPeriodo sit : manager.todosSitios()) {
-			if (sit.getSitNombre().trim().equals(s.getSit_nombre().trim())) {
+			if (sit.getSitNombre().trim().equals(s.getSit_nombre().trim()) && sit.getId().getPrdId().equals(prdId)) {
 				v = 100;
 				break;
 			}
@@ -367,7 +367,6 @@ public class SitiosBean {
 			}
 			this.getlistSitios();
 			this.getListSitiosPer();
-			Mensaje.crearMensajeINFO("Sitios insertados Correctamente");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
