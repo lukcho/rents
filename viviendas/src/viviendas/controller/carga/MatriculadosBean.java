@@ -84,13 +84,13 @@ public class MatriculadosBean {
 				.getResourceAsStream("/resources/excel/excelbase2.xls");
 		InputStream stream3 = ((ServletContext) FacesContext
 				.getCurrentInstance().getExternalContext().getContext())
-				.getResourceAsStream("/resources/excel/contrato.pdf");
+				.getResourceAsStream("/resources/contratos/error.pdf");
 		file = new DefaultStreamedContent(stream, "texto/xls",
 				"archivo_Ejemplo_Matriculados.xls");
 		file2 = new DefaultStreamedContent(stream2, "texto/xls",
 				"archivo_Ejemplo_Negados.xls");
 		file3 = new DefaultStreamedContent(stream3, "application/pdf",
-				"contrato.pdf");
+				"error.pdf");
 	}
 
 	/**
@@ -362,8 +362,8 @@ public class MatriculadosBean {
 	public void setMatRepresNombre(String matRepresNombre) {
 		this.matRepresNombre = matRepresNombre;
 	}
-	
-	private void ListNegados(){
+
+	private void ListNegados() {
 		try {
 			negados = manager.NegadoByPeriodo(prdId);
 		} catch (Exception e) {
@@ -371,8 +371,8 @@ public class MatriculadosBean {
 			e.printStackTrace();
 		}
 	}
-	
-	private void ListMatriculados(){
+
+	private void ListMatriculados() {
 		try {
 			matriculados = manager.MatriculadoByPeriodo(prdId);
 		} catch (Exception e) {
@@ -647,18 +647,18 @@ public class MatriculadosBean {
 		}
 		return "";
 	}
-	
-	public String estadosX(String a ){
+
+	public String estadosX(String a) {
 		if (a.equals("A"))
 			return "Activado";
 		else
 			return "Finalizado";
 	}
-	
-	public void validarYCarga(){
+
+	public void validarYCarga() {
 		System.out.println(prdId);
 	}
-	
+
 	/**
 	 * Lista de periodos
 	 * 
@@ -673,26 +673,26 @@ public class MatriculadosBean {
 			}
 		return lista;
 	}
-	
-	public String nombre(String ci){
+
+	public String nombre(String ci) {
 		ArrMatriculado m;
-		String re="";
+		String re = "";
 		try {
 			m = manager.MatriculadoByCI(ci.trim());
-			re= m.getMatNombre();
+			re = m.getMatNombre();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return re;
 	}
-	
-	public void setearContrato(String dni){
-		  file3 = new DefaultStreamedContent(((ServletContext) FacesContext
-		    .getCurrentInstance().getExternalContext().getContext())
-		    .getResourceAsStream("/resources/contratos/"+prdId+"_"+dni+".pdf"), 
-		    "application/pdf",
-		    prdId+"_"+dni+".pdf");
-		 }
+
+	public void setearContrato(String dni) {
+		file3 = new DefaultStreamedContent(
+				((ServletContext) FacesContext.getCurrentInstance()
+						.getExternalContext().getContext()).getResourceAsStream("/resources/contratos/"
+						+ prdId + "_" + dni + ".pdf"), "application/pdf", prdId
+						+ "_" + dni + ".pdf");
+	}
 
 }
